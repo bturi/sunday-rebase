@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F6F4EE">
 <title>The Sunday Rebase · Issue 1 · 30 August 2026</title>
+<link rel="icon" href="../favicon.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -40,6 +44,8 @@
   .band{max-width:1200px;margin:0 auto;padding:0 24px}
   .band>*{min-width:0}
   .band+.band{border-top:1px solid var(--line-2);margin-top:var(--s4);padding-top:var(--s4)}
+  .band .page{margin-top:0}
+  @media (max-width:1099px){.band>*+*{margin-top:var(--s5)}}
   @media (min-width:1100px){
     .band{display:grid;column-gap:0}
     .band-front{grid-template-columns:minmax(0,1.6fr) minmax(0,.9fr)}
@@ -86,17 +92,37 @@
   #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:20;background:linear-gradient(90deg,var(--blue),var(--purple),var(--cyan))}
   .ticker{text-align:center;font:12.5px/1.6 var(--mono);color:var(--muted);padding:14px 20px;border-bottom:1px solid var(--line)}
   .ticker b{color:var(--orange);font-weight:600}
-  .masthead{text-align:center;padding:var(--s5) 0 var(--s4)}
+  .masthead{text-align:center;padding:var(--s5) 20px var(--s4)}
   .masthead .the{font:600 12px/1 var(--mono);letter-spacing:.55em;color:var(--muted);margin:0 0 12px .55em}
   .logo{display:inline-block;margin:0;font:11px/1.05 var(--mono);white-space:pre;text-align:left;color:var(--blue);background:linear-gradient(90deg,var(--blue) 0%,var(--purple) 55%,var(--cyan) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .logo-text{display:none;margin:0;font:800 44px/1 var(--display);letter-spacing:-0.04em;color:var(--blue);background:linear-gradient(90deg,var(--blue),var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .tagline{margin:20px 0 0;font:15px/1.5 var(--sans);color:var(--fg-dim)}
-  .dateline{margin:6px 0 0;font:12.5px/1.6 var(--mono);color:var(--muted)}
+  .dateline{margin:6px 0 0;font:12.5px/1.6 var(--mono);color:var(--muted);text-wrap:balance}
+
+  /* issue picker: the issue number in the dateline opens a list of every issue */
+  .issue-menu{position:relative;display:inline-block}
+  .issue-pick{background:none;border:0;padding:0 0 1px;margin:0;font:inherit;color:inherit;cursor:pointer;border-bottom:1px dotted currentColor}
+  .issue-pick::after{content:"▾";margin-left:5px;font-size:11px;opacity:.75}
+  .issue-pick:hover,.issue-pick[aria-expanded="true"]{color:var(--fg)}
+  .issue-list{position:absolute;left:50%;top:calc(100% + 10px);transform:translateX(-50%);z-index:30;width:max-content;min-width:260px;max-width:min(360px,calc(100vw - 24px));padding:6px;text-align:left;background:var(--bg);border:1px solid var(--line-2);border-radius:8px;box-shadow:0 14px 36px -14px rgba(0,0,0,.35),0 2px 8px rgba(0,0,0,.06);font:12.5px/1.5 var(--mono)}
+  .issue-list[hidden]{display:none}
+  .issue-list::before{content:"";position:absolute;left:calc(50% - var(--shift,0px));top:-6px;width:10px;height:10px;margin-left:-5px;background:var(--bg);border-left:1px solid var(--line-2);border-top:1px solid var(--line-2);transform:rotate(45deg)}
+  .issue-list ul{list-style:none;margin:0;padding:0;max-height:min(50vh,380px);overflow-y:auto}
+  .issue-list li a{display:block;padding:8px 10px;border-radius:5px;color:var(--fg-dim);text-decoration:none}
+  .issue-list li a:hover,.issue-list li a:focus-visible{background:var(--bg-2);color:var(--fg);outline:0}
+  .issue-list li a b{font-weight:600;color:var(--fg)}
+  .issue-list li a span{margin-left:8px;color:var(--muted)}
+  .issue-list li a em{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font:13px/1.4 var(--sans);font-style:normal;color:var(--muted)}
+  .issue-list a[aria-current] span::after{content:" · this one"}
+  .issue-list .all{display:block;margin:6px -6px -6px;padding:8px 16px;border-top:1px solid var(--line);border-radius:0 0 8px 8px;color:var(--muted);text-decoration:none}
+  .issue-list .all:hover{background:var(--bg-2);color:var(--fg)}
   .rule{height:1px;background:linear-gradient(90deg,transparent,var(--blue),var(--purple),var(--cyan),transparent);opacity:.7}
 
   /* nav */
   nav.links{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-  nav.links ul{list-style:none;margin:0 auto;padding:10px 20px;max-width:680px;display:flex;flex-wrap:nowrap;overflow-x:auto;justify-content:center;font:12.5px/1.6 var(--mono);scrollbar-width:none}
+  /* the list centres itself while it fits and scrolls from the left edge once it does not, so no item is ever clipped */
+  nav.links ul{list-style:none;margin:0 auto;padding:10px 0 10px 20px;width:max-content;max-width:100%;display:flex;flex-wrap:nowrap;overflow-x:auto;font:12.5px/1.6 var(--mono);scrollbar-width:none}
+  nav.links ul::after{content:"";flex:0 0 20px}
   nav.links ul::-webkit-scrollbar{display:none}
   nav.links li{white-space:nowrap}
   nav.links li+li::before{content:"·";color:var(--line-2);margin:0 9px}
@@ -225,8 +251,9 @@
     body{font-size:16px;line-height:1.65}
     .logo{display:none}
     .logo-text{display:inline-block}
-    .masthead{padding:var(--s4) 0 var(--s3)}
-    nav.links ul{justify-content:flex-start}
+    .masthead{padding:var(--s4) 20px var(--s3)}
+    nav.links::after{content:"";position:absolute;top:0;right:0;bottom:0;width:36px;background:linear-gradient(90deg,transparent,var(--bg));pointer-events:none}
+    .page{margin-top:var(--s5)}
     .secondaries{grid-template-columns:1fr;gap:var(--s2)}
     .numbers{grid-template-columns:1fr 1fr;gap:var(--s2)}
     .columns{grid-template-columns:1fr}
@@ -254,7 +281,7 @@
                                                 </pre>
   <p class="logo-text" aria-hidden="true">REBASE</p>
   <p class="tagline">What the people building AI said this week</p>
-  <p class="dateline">Sunday 30 August 2026 · Issue 1 · covers Sat 22 to Sun 30 Aug · ≈ 6 min</p>
+  <div class="dateline">Sunday 30 August 2026 · <span class="issue-menu"><button id="issuePick" class="issue-pick" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="issueMenu">Issue 1</button><div class="issue-list" id="issueMenu" hidden><ul id="issueList"></ul><a class="all" href="../archive.html">all issues →</a></div></span> · covers Sat 22 to Sun 30 Aug · ≈ 6 min</div>
 </header>
 <div class="rule" aria-hidden="true"></div>
 
@@ -641,10 +668,49 @@
   /* theme: light by default, manual dark */
   var themeBtn=document.getElementById('theme');
   function effectiveTheme(){ return root.getAttribute('data-theme')==='dark' ? 'dark' : 'light'; }
-  function syncTheme(){ themeBtn.textContent = effectiveTheme()==='light' ? '[dark]' : '[light]'; }
+  function syncTheme(){
+    var dark=effectiveTheme()==='dark';
+    themeBtn.textContent = dark ? '[light]' : '[dark]';
+    document.querySelector('meta[name="theme-color"]').content = dark ? '#1A1B26' : '#F6F4EE';
+  }
   function toggleTheme(){ root.setAttribute('data-theme', effectiveTheme()==='light' ? 'dark' : 'light'); syncTheme(); }
   themeBtn.addEventListener('click',toggleTheme);
   syncTheme();
+
+  /* issue picker: every issue from issues/index.json (written by the deploy workflow), newest first */
+  var pick=document.getElementById('issuePick'), menu=document.getElementById('issueMenu'), issueList=document.getElementById('issueList');
+  var here=decodeURIComponent(location.pathname.split('/').pop());
+  var DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function dayLabel(iso){ var d=new Date(iso+'T12:00:00'); return DAYS[d.getDay()]+' '+d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear(); }
+  function renderIssues(issues){
+    issueList.textContent='';
+    issues.forEach(function(it){
+      var li=document.createElement('li'), a=document.createElement('a'), b=document.createElement('b'), s=document.createElement('span');
+      a.href=it.file; b.textContent='Issue '+it.n; s.textContent=dayLabel(it.date);
+      a.appendChild(b); a.appendChild(s);
+      if(it.lead){ var em=document.createElement('em'); em.textContent=it.lead; a.appendChild(em); }
+      if(it.file===here){ a.setAttribute('aria-current','page'); }
+      li.appendChild(a); issueList.appendChild(li);
+    });
+  }
+  function placeMenu(){
+    menu.style.marginLeft='0px'; menu.style.setProperty('--shift','0px');
+    /* layout viewport, not innerWidth: a phone zooms out when something overflows, which would hide the overflow */
+    var r=menu.getBoundingClientRect(), vw=document.documentElement.clientWidth, pad=12, dx=0;
+    if(r.left<pad){ dx=pad-r.left; } else if(r.right>vw-pad){ dx=vw-pad-r.right; }
+    menu.style.marginLeft=dx+'px'; menu.style.setProperty('--shift',dx+'px');
+  }
+  function setMenu(open){
+    menu.hidden=!open; pick.setAttribute('aria-expanded',open?'true':'false');
+    if(open){ placeMenu(); var first=issueList.querySelector('a'); if(first){ first.focus(); } }
+  }
+  pick.addEventListener('click',function(e){ e.stopPropagation(); setMenu(menu.hidden); });
+  document.addEventListener('click',function(e){ if(!menu.hidden && !menu.contains(e.target)){ setMenu(false); } });
+  window.addEventListener('resize',function(){ if(!menu.hidden){ placeMenu(); } });
+  fetch('index.json',{cache:'no-cache'})
+    .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function(data){ renderIssues(data.issues||[]); })
+    .catch(function(){ /* no manifest, e.g. a local file preview: the archive link still works */ });
 
   /* progress bar */
   var bar=document.getElementById('progress');
@@ -702,6 +768,15 @@
     if(e.metaKey||e.ctrlKey||e.altKey) return;
     var tag=(e.target.tagName||'').toLowerCase();
     if(tag==='input'||tag==='textarea') return;
+    if(!menu.hidden){
+      if(e.key==='Escape'){ setMenu(false); pick.focus(); e.preventDefault(); }
+      else if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+        var links=Array.prototype.slice.call(menu.querySelectorAll('a')), i=links.indexOf(document.activeElement);
+        var n=e.key==='ArrowDown' ? Math.min(i+1,links.length-1) : Math.max(i-1,0);
+        if(links[n]){ links[n].focus(); } e.preventDefault();
+      }
+      return;
+    }
     if(e.key==='j'){ focusStory(Math.min(idx+1,stories.length-1)); e.preventDefault(); }
     else if(e.key==='k'){ focusStory(Math.max(idx-1,0)); e.preventDefault(); }
     else if(e.key==='o'||e.key==='Enter'){

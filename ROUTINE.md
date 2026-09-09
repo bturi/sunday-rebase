@@ -16,8 +16,11 @@ Steps:
    Decide the lead, the section leads, rivers, Also lines, four figures, tables
    if the numbers changed, the And finally item, and the full wire.
 4. Fill the template: new content in the same slots. Update the issue number
-   (previous plus one), all dates, the read-time estimate, wire counts, the
-   colophon source table with kept counts, quiet sources and the filtered count.
+   (previous plus one) in the title, the dateline button and the colophon end
+   line, all dates, the read-time estimate, wire counts, the colophon source
+   table with kept counts, quiet sources and the filtered count. The issue
+   picker behind the dateline button lists issues from issues/index.json,
+   which the deploy workflow writes; nothing in the page needs updating for it.
 5. Self-check before saving, fix and re-check until all pass:
    - zero em-dash characters in the file
    - at most one quote per source, each under 15 words
@@ -25,8 +28,9 @@ Steps:
    - HTML tags balanced, file opens as valid HTML
    - no item asserts anything not present in the fetched material
 6. Save as issues/YYYY-MM-DD.html using today's date. Commit it with the
-   message "issue N: YYYY-MM-DD" and push. Do not touch index.html or
-   archive.html; the deploy workflow generates them from the issues folder.
+   message "issue N: YYYY-MM-DD" and push. Do not touch index.html,
+   archive.html or issues/index.json; the deploy workflow generates them from
+   the issues folder.
 
 Failure behaviour: an unreachable or empty source is listed as quiet in the
 colophon; never guess its content. If the whole week yields fewer than 8 items,
