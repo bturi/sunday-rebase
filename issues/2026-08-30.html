@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>The Sunday Rebase · Issue 1 · 30 August 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F4EE; --bg-2:#EFECE4; --bg-3:#E5E1D6;
+    --fg:#1C1D2A; --fg-dim:#3E4159; --muted:#6B7088; --line:#DAD6CB; --line-2:#C8C3B4;
+    --blue:#2B5BD7; --purple:#6E3FD0; --green:#3F7A12; --red:#C42F52; --orange:#C05F16; --yellow:#8A6410; --cyan:#1274A0; --pink:#B23F86;
+    --display:"Inter Tight",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:96px;
+  }
+  [data-theme="dark"]{
+    --bg:#1A1B26; --bg-2:#1F2233; --bg-3:#262A3E;
+    --fg:#D4DBF3; --fg-dim:#AEB7DA; --muted:#8B94B3; --line:#2B3048; --line-2:#3A4062;
+    --blue:#7AA2F7; --purple:#BB9AF7; --green:#9ECE6A; --red:#F7768E; --orange:#FF9E64; --yellow:#E0AF68; --cyan:#7DCFFF; --pink:#F0A6D4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:64px}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.7 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  p{text-wrap:pretty}
+  a{color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:color-mix(in srgb,var(--blue) 45%,transparent)}
+  a:hover{color:var(--cyan);text-decoration-color:currentColor}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:2px}
+  code{font:0.88em var(--mono);background:var(--bg-3);padding:1px 5px;border-radius:3px}
+  h1,h2,h3,h4{margin:0;font-family:var(--display);font-weight:600;letter-spacing:-0.02em;text-wrap:balance}
+  q{quotes:"\201C" "\201D";color:var(--yellow)}
+  .wrap{max-width:680px;margin:0 auto;padding:0 20px}
+
+  /* mosaic bands: side-by-side sections on wide screens */
+  .band{max-width:1200px;margin:0 auto;padding:0 24px}
+  .band>*{min-width:0}
+  .band+.band{border-top:1px solid var(--line-2);margin-top:var(--s4);padding-top:var(--s4)}
+  @media (min-width:1100px){
+    .band{display:grid;column-gap:0}
+    .band-front{grid-template-columns:minmax(0,1.6fr) minmax(0,.9fr)}
+    .band-3{grid-template-columns:repeat(3,1fr)}
+    .band-2{grid-template-columns:1.15fr 1fr}
+    .band>*+*{border-left:1px solid var(--line);padding-left:36px}
+    .band>*:not(:last-child){padding-right:36px}
+    .band .page{margin-top:0}
+    .band .page .pagehead{margin-bottom:var(--s3)}
+    .band article.main h3{font-size:21px;line-height:1.25}
+    .band .standfirst{font-size:15.5px;line-height:1.55}
+    .band ul.related li{font-size:14px}
+    .band article.river{margin-top:var(--s3);padding-top:var(--s2)}
+    .band article.river h4{font-size:16.5px}
+    .band article.river p{font-size:14.5px}
+    .band .also{margin-top:var(--s3);padding-top:var(--s2);font-size:14px}
+    .band .columns{grid-template-columns:1fr;gap:var(--s3)}
+    .band .column:first-child{grid-column:auto;padding-bottom:var(--s3)}
+    .band .column:first-child h3{font-size:19px}
+    .band .column:first-child p{font-size:15.5px}
+    .band .episode{grid-template-columns:1fr;gap:var(--s1)}
+    .band .episode h3{font-size:18px}
+    .band .finally h3{font-size:18px}
+    .band .finally p{font-size:15px}
+    .band table.data{font-size:12px}
+    .band table.data td.bar{width:26%}
+  }
+
+  /* front-right stack */
+  .band-front{margin-top:var(--s5)}
+  .front-right .secondaries{display:block;margin-top:0;padding-top:0;border-top:0}
+  .front-right .story{margin-bottom:var(--s3)}
+  .front-right .numbers{grid-template-columns:1fr 1fr;gap:var(--s2);margin-top:var(--s2);padding:var(--s2) 0 0;border-bottom:0}
+  .front-right .numbers .n{font-size:20px}
+  @media (min-width:1100px){
+    .front-right .story{border-top:2px solid var(--c);padding-top:var(--s2)}
+    .band-front .lead h1{font-size:clamp(32px,3.6vw,42px)}
+  }
+
+  .c-models{--c:var(--purple)} .c-tools{--c:var(--blue)} .c-security{--c:var(--red)} .c-money{--c:var(--green)}
+  .c-opinion{--c:var(--yellow)} .c-audio{--c:var(--orange)} .c-back{--c:var(--cyan)} .c-wire{--c:var(--pink)} .c-finally{--c:var(--pink)} .c-neutral{--c:var(--fg-dim)}
+
+  /* progress + ticker + masthead */
+  #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:20;background:linear-gradient(90deg,var(--blue),var(--purple),var(--cyan))}
+  .ticker{text-align:center;font:12.5px/1.6 var(--mono);color:var(--muted);padding:14px 20px;border-bottom:1px solid var(--line)}
+  .ticker b{color:var(--orange);font-weight:600}
+  .masthead{text-align:center;padding:var(--s5) 0 var(--s4)}
+  .masthead .the{font:600 12px/1 var(--mono);letter-spacing:.55em;color:var(--muted);margin:0 0 12px .55em}
+  .logo{display:inline-block;margin:0;font:11px/1.05 var(--mono);white-space:pre;text-align:left;color:var(--blue);background:linear-gradient(90deg,var(--blue) 0%,var(--purple) 55%,var(--cyan) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .logo-text{display:none;margin:0;font:800 44px/1 var(--display);letter-spacing:-0.04em;color:var(--blue);background:linear-gradient(90deg,var(--blue),var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .tagline{margin:20px 0 0;font:15px/1.5 var(--sans);color:var(--fg-dim)}
+  .dateline{margin:6px 0 0;font:12.5px/1.6 var(--mono);color:var(--muted)}
+  .rule{height:1px;background:linear-gradient(90deg,transparent,var(--blue),var(--purple),var(--cyan),transparent);opacity:.7}
+
+  /* nav */
+  nav.links{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav.links ul{list-style:none;margin:0 auto;padding:10px 20px;max-width:680px;display:flex;flex-wrap:nowrap;overflow-x:auto;justify-content:center;font:12.5px/1.6 var(--mono);scrollbar-width:none}
+  nav.links ul::-webkit-scrollbar{display:none}
+  nav.links li{white-space:nowrap}
+  nav.links li+li::before{content:"·";color:var(--line-2);margin:0 9px}
+  nav.links a{text-decoration:none;color:var(--fg-dim)}
+  nav.links a:hover{color:var(--c,var(--blue))}
+  nav.links button{background:none;border:0;color:var(--muted);font:12.5px/1.6 var(--mono);cursor:pointer;padding:0}
+  nav.links button:hover{color:var(--blue)}
+
+  /* shared editorial pieces */
+  .kicker{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.16em;margin:0 0 var(--s2);color:var(--c)}
+  .standfirst{margin:0 0 var(--s2);font:19px/1.55 var(--sans);font-weight:400;color:var(--fg-dim)}
+  .byline{font:12.5px/1.6 var(--mono);color:var(--muted);margin:0 0 var(--s2)}
+  .body p{margin:0 0 var(--s2)}
+  .sources{font:12.5px/1.8 var(--mono);color:var(--muted);margin-top:var(--s1)}
+  .sources a{color:var(--muted);text-decoration-color:color-mix(in srgb,var(--muted) 40%,transparent)}
+  .sources a:hover{color:var(--fg)}
+
+  /* NYT-style related links under a lead package */
+  ul.related{list-style:none;margin:var(--s2) 0 0;padding:0}
+  ul.related li{position:relative;padding:5px 0 5px 20px;font-size:15px;line-height:1.55}
+  ul.related li::before{content:"→";position:absolute;left:0;top:5px;font-family:var(--mono);color:var(--muted)}
+  ul.related a{color:var(--fg);font-weight:500;text-decoration-color:color-mix(in srgb,var(--fg) 25%,transparent)}
+  ul.related a:hover{color:var(--blue)}
+  ul.related .rs{font:12px var(--mono);color:var(--muted);margin-left:8px}
+
+  /* front */
+  .front{padding:var(--s5) 0 0}
+  .lead h1{font-size:clamp(32px,5.4vw,46px);line-height:1.1;margin-bottom:var(--s3);letter-spacing:-0.03em}
+  .lead .standfirst{font-size:20px}
+  .secondaries{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);margin-top:var(--s5);padding-top:var(--s3);border-top:1px solid var(--line)}
+  .story{position:relative;padding-top:var(--s2);border-top:2px solid var(--c)}
+  .story h3{font-size:17px;line-height:1.3;margin-bottom:var(--s1)}
+  .story h3 a{color:inherit;text-decoration:none}
+  .story h3 a::after{content:"";position:absolute;inset:0}
+  .story:hover h3{color:var(--c)}
+  .story p{margin:0 0 var(--s1);font-size:14.5px;line-height:1.55;color:var(--fg-dim)}
+  .story .src{font:12px/1.6 var(--mono);color:var(--muted)}
+  .numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3);margin-top:var(--s5);padding:var(--s3) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .numbers .n{font:600 26px/1.1 var(--display);letter-spacing:-0.03em;font-variant-numeric:tabular-nums;padding-bottom:6px;border-bottom:2px solid var(--c);display:inline-block}
+  .numbers .l{margin-top:8px;font:12px/1.45 var(--sans);color:var(--muted)}
+
+  /* topic pages */
+  .page{margin-top:var(--s6)}
+  .pagehead{display:flex;align-items:center;gap:12px;font:600 12.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.16em;margin-bottom:var(--s4)}
+  .pagehead .hash{color:var(--muted);font-weight:500}
+  .pagehead .name{color:var(--c)}
+  .pagehead::after{content:"";flex:1;border-top:1px solid var(--line);order:1}
+  .pagehead .more{order:2;font:500 12px/1 var(--mono);color:var(--muted);letter-spacing:.04em;text-transform:none;text-decoration:none}
+  .pagehead .more:hover{color:var(--c)}
+  article.main h3{font-size:28px;line-height:1.18;margin-bottom:var(--s2)}
+  article.river{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--line)}
+  article.river h4{font-size:19px;line-height:1.3;margin-bottom:var(--s1)}
+  article.river h4 a{color:inherit;text-decoration:none}
+  article.river h4 a:hover{color:var(--blue)}
+  article.river p{margin:0 0 var(--s1);font-size:15.5px;color:var(--fg-dim)}
+  article.river .meta{font:12.5px/1.6 var(--mono);color:var(--muted);margin:0}
+  article.river .meta a{color:var(--muted);text-decoration-color:color-mix(in srgb,var(--muted) 40%,transparent)}
+  article.river .meta a:hover{color:var(--fg)}
+  .also{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--line);font-size:14.5px;line-height:1.7;color:var(--fg-dim)}
+  .also b{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-right:6px}
+  .figures{margin:var(--s3) 0 var(--s1);border:1px solid var(--line);background:var(--bg-2);padding:var(--s2) var(--s3)}
+  .figures h4{font:600 13px/1.4 var(--sans);margin-bottom:2px}
+  .figures .cap{margin:0 0 var(--s2);font:12.5px/1.5 var(--sans);color:var(--muted)}
+  table.data{width:100%;border-collapse:collapse;font:13px/1.4 var(--mono);font-variant-numeric:tabular-nums}
+  table.data th{text-align:left;font-weight:500;color:var(--muted);padding:4px 8px 8px 0;border-bottom:1px solid var(--line-2)}
+  table.data td{padding:6px 8px 6px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+  table.data td.dim{color:var(--muted)}
+  table.data td.num{text-align:right;white-space:nowrap;width:56px;font-weight:600}
+  table.data td.bar{width:36%}
+  table.data .b{display:block;height:6px;width:var(--w);background:var(--b1);border-radius:1px}
+  table.data .b.alt{background:var(--b2)}
+  .t-models{--b1:var(--blue);--b2:var(--purple)}
+  .t-money{--b1:var(--green);--b2:var(--orange)}
+  .legend{margin:var(--s2) 0 0;font:12px/1.6 var(--mono);color:var(--muted)}
+  .legend i{display:inline-block;width:9px;height:6px;background:var(--b1);margin-right:6px;vertical-align:1px;border-radius:1px}
+  .legend i.alt{background:var(--b2)}
+
+  /* opinion */
+  .columns{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4) var(--s4)}
+  .column .who{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:0 0 var(--s1)}
+  .column .who b{color:var(--fg);font-weight:600}
+  .column h3{font-size:18px;line-height:1.3;margin-bottom:var(--s1)}
+  .column p{margin:0 0 var(--s1);font-size:15.5px;color:var(--fg-dim)}
+  .column:first-child{grid-column:1/-1;padding-bottom:var(--s4);border-bottom:1px solid var(--line)}
+  .column:first-child h3{font-size:24px;line-height:1.2}
+  .column:first-child p{font-size:17px}
+
+  /* audio */
+  .episode{display:grid;grid-template-columns:120px 1fr;gap:var(--s3)}
+  .episode .len{font:600 30px/1 var(--display);letter-spacing:-0.03em;color:var(--fg)}
+  .episode .len small{display:block;font:12px/1.6 var(--mono);color:var(--muted);margin-top:8px;font-weight:400;letter-spacing:0}
+  .episode h3{font-size:22px;line-height:1.25;margin-bottom:var(--s2)}
+  .episode p{color:var(--fg-dim)}
+
+  /* and finally */
+  .finally p{font-size:16px;color:var(--fg-dim);margin:0 0 var(--s1)}
+  .finally h3{font-size:22px;line-height:1.25;margin-bottom:var(--s2)}
+
+  /* wire */
+  .wire-body[hidden]{display:none}
+  .filters{display:flex;flex-wrap:wrap;gap:4px 14px;font:12.5px/1.6 var(--mono);margin:0 0 var(--s1)}
+  .filters button{background:none;border:0;padding:0;color:var(--muted);font:inherit;cursor:pointer}
+  .filters button::before{content:"["}
+  .filters button::after{content:"]"}
+  .filters button:hover{color:var(--fg)}
+  .filters button[aria-pressed="true"]{color:var(--fg);font-weight:600}
+  .wire ul{list-style:none;margin:0;padding:0}
+  .wire .day{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);padding:var(--s3) 0 var(--s1)}
+  .wire .row{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:8px 0;border-top:1px solid var(--line);align-items:baseline}
+  .wire .row .t{font:600 11px/1.7 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--c)}
+  .wire .row a{color:var(--fg);text-decoration:none;font-size:15px}
+  .wire .row a:hover{color:var(--c)}
+  .wire .row .s{display:block;font:12px/1.6 var(--mono);color:var(--muted)}
+  .wire .row[hidden],.wire .day[hidden]{display:none}
+
+  .kb{outline:2px solid var(--blue);outline-offset:6px;border-radius:2px}
+
+  /* colophon */
+  .colophon{margin-top:var(--s6);padding:var(--s4) 0 var(--s6);border-top:1px solid var(--line);font-size:15px;color:var(--fg-dim)}
+  .colophon p{margin:0 0 var(--s2)}
+  .colophon .keys{font:12.5px/1.8 var(--mono);color:var(--muted)}
+  .colophon .keys kbd{font:inherit;color:var(--fg);background:var(--bg-3);padding:1px 6px;border-radius:3px}
+  .colophon .end{margin-top:var(--s3);text-align:center;font:12.5px/1.6 var(--mono);color:var(--muted)}
+
+  @media (max-width:720px){
+    body{font-size:16px;line-height:1.65}
+    .logo{display:none}
+    .logo-text{display:inline-block}
+    .masthead{padding:var(--s4) 0 var(--s3)}
+    nav.links ul{justify-content:flex-start}
+    .secondaries{grid-template-columns:1fr;gap:var(--s2)}
+    .numbers{grid-template-columns:1fr 1fr;gap:var(--s2)}
+    .columns{grid-template-columns:1fr}
+    .episode{grid-template-columns:1fr;gap:var(--s1)}
+    article.main h3{font-size:24px}
+    table.data td.bar{width:28%}
+    .wire .row{grid-template-columns:68px 1fr}
+  }
+  @media print{nav.links,.filters,#progress{display:none}.logo{-webkit-text-fill-color:#000;background:none}.wire-body[hidden]{display:block}}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+
+<div class="ticker"><b>top story →</b> <a href="#lead">OpenAI ends its Cursor contract; models leave on 12 November</a></div>
+
+<header class="masthead">
+  <p class="the">THE SUNDAY</p>
+<pre class="logo" aria-label="REBASE">██████╗ ███████╗██████╗  █████╗ ███████╗███████╗
+██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝
+██████╔╝█████╗  ██████╔╝███████║███████╗█████╗  
+██╔══██╗██╔══╝  ██╔══██╗██╔══██║╚════██║██╔══╝  
+██║  ██║███████╗██████╔╝██║  ██║███████║███████╗
+╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
+                                                </pre>
+  <p class="logo-text" aria-hidden="true">REBASE</p>
+  <p class="tagline">What the people building AI said this week</p>
+  <p class="dateline">Sunday 30 August 2026 · Issue 1 · covers Sat 22 to Sun 30 Aug · ≈ 6 min</p>
+</header>
+<div class="rule" aria-hidden="true"></div>
+
+<nav class="links" aria-label="Pages">
+  <ul>
+    <li><a href="#front">front</a></li>
+    <li class="c-models"><a href="#models">models</a></li>
+    <li class="c-tools"><a href="#tools">tools</a></li>
+    <li class="c-security"><a href="#security">security</a></li>
+    <li class="c-money"><a href="#money">money</a></li>
+    <li class="c-opinion"><a href="#opinion">opinion</a></li>
+    <li class="c-audio"><a href="#audio">audio</a></li>
+    <li class="c-back"><a href="#back">back pages</a></li>
+    <li class="c-wire"><a href="#wire">wire</a></li>
+    <li><button id="theme" type="button">[dark]</button></li>
+  </ul>
+</nav>
+
+<div class="band band-front" id="front">
+    <article class="lead c-tools" id="lead" data-story>
+      <p class="kicker">Lead story · Agents &amp; tooling</p>
+      <h1>OpenAI ends its Cursor contract. Model supply just became a strategic variable.</h1>
+      <p class="standfirst">Two weeks after SpaceX closed its $60bn purchase of Cursor, OpenAI gave notice: its models leave on 12 November, on trust grounds. Cursor says that is 5% of its traffic. Anthropic says it is staying. If your product routes through a third-party agent or IDE, check which providers reach your workloads and how fast you can swap them.</p>
+      <p class="byline">OpenAI · Bloomberg · CNBC · Sat 29 Aug</p>
+      <ul class="related">
+        <li><a href="https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/">OpenAI's statement: X's past breaches, xAI's admitted violation, and a new model called Astra</a><span class="rs">openai.com</span></li>
+        <li><a href="https://www.cnbc.com/2026/08/29/openai-cursor-spacex-model-access.html">Cursor and Anthropic respond; Musk replies with insults</a><span class="rs">cnbc.com</span></li>
+        <li><a href="https://www.cnbc.com/2026/06/16/spacex-spcx-cursor-acquisition-ipo.html">Background: the $60bn all-stock deal, closed 14 Aug</a><span class="rs">cnbc.com</span></li>
+        <li><a href="https://www.bloomberg.com/news/articles/2026-08-29/openai-to-end-partnership-with-cursor-after-spacex-acquisition">Market context: Cursor's category share fell from 41% to about 26% in a year</a><span class="rs">bloomberg.com</span></li>
+      </ul>
+    </article>
+
+    <aside class="front-right">
+      <div class="secondaries">
+      <article class="story c-security">
+        <p class="kicker">Security</p>
+        <h3><a href="#security">Auto mode bypassed four times in five</a></h3>
+        <p>Rehberger's zip-archive attack gets past Claude Code's default auto mode about 80% of the time; in some runs the classifier blocked Claude's own cleanup.</p>
+        <p class="src">Willison · Thu 27</p>
+      </article>
+      <article class="story c-models">
+        <p class="kicker">Models</p>
+        <h3><a href="#models">Tencent and Qwen ship two large open models</a></h3>
+        <p>Hy4 Preview (770B total, 49B active, 1M context) and Qwen3.8-Flash-Next (125B total, 6B active). Open models trail the closed frontier by three index points.</p>
+        <p class="src">Willison · Sat 29, Wed 26</p>
+      </article>
+      <article class="story c-money">
+        <p class="kicker">Money</p>
+        <h3><a href="#money">Anthropic's run-rate hits $65bn; the cheaper models pay for it</a></h3>
+        <p>Per the FT. On Ramp's card data, Opus 4.8 takes 28% of Anthropic spend, Fable 5 8%.</p>
+        <p class="src">FT via Willison · Sun 23</p>
+      </article>
+    </div>
+
+      <div class="numbers" aria-label="Figures of the week">
+        <div class="c-tools"><div class="n">12 Nov</div><div class="l">OpenAI models leave Cursor</div></div>
+        <div class="c-money"><div class="n">$65bn</div><div class="l">Anthropic run-rate, July</div></div>
+        <div class="c-security"><div class="n">80%</div><div class="l">auto-mode bypass rate</div></div>
+        <div class="c-models"><div class="n">63 / 60</div><div class="l">index: best closed / best open</div></div>
+      </div>
+    </aside>
+</div>
+
+<div class="band band-3">
+  <!-- MODELS -->
+  <section class="page c-models" id="models">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Models</span><a class="more" data-cat="models" href="#wire">more → wire</a></h2>
+    <article class="main" data-story>
+      <h3>Tencent and Qwen ship two large open-weights models in one week</h3>
+      <p class="standfirst">Hy4 Preview: 770B total, 49B active, 1M context, text only. Qwen3.8-Flash-Next: 125B total, 6B active, multimodal, an early look at the Qwen4 architecture. Both passed Willison's tests, Hy4 at the default setting, Qwen on a DGX Spark via Unsloth quants.</p>
+      <p class="byline">Simon Willison · Sat 29 and Wed 26 Aug</p>
+      <ul class="related">
+        <li><a href="https://simonwillison.net/2026/Aug/29/hy4/">Willison on Hy4: two reasoning modes only, a trace written in clipped English</a><span class="rs">simonwillison.net</span></li>
+        <li><a href="https://simonwillison.net/2026/Aug/26/qwen38-flash-next/">Willison on Qwen3.8-Flash-Next: 6B active is why it is fast</a><span class="rs">simonwillison.net</span></li>
+        <li><a href="https://hy.tencent.ai/research/hy4-preview">Tencent's release page</a><span class="rs">hy.tencent.ai</span></li>
+        <li><a href="https://qwen.ai/blog?id=qwen3.8-flash-next">Qwen's release post</a><span class="rs">qwen.ai</span></li>
+      </ul>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://artificialanalysis.ai/leaderboards/models">Leaderboard: Opus 5 leads at 63; Kimi K3 and GLM-5.3 lead the open field at 60</a></h4>
+      <p>Intelligence Index v4.1.1, 177 models, nine evaluations; 98 of the 177 are open weights.</p>
+      <div class="figures">
+        <h4>Intelligence Index, selected models</h4>
+        <p class="cap">Highest published effort setting. Bars scaled to 70.</p>
+        <table class="data t-models">
+          <tr><th>Model</th><th>Weights</th><th>Index</th><th></th></tr>
+          <tr><td>Claude Opus 5 (max)</td><td class="dim">closed</td><td class="num">63</td><td class="bar"><span class="b" style="--w:90%"></span></td></tr>
+          <tr><td>Claude Fable 5 (max)</td><td class="dim">closed</td><td class="num">62</td><td class="bar"><span class="b" style="--w:88.6%"></span></td></tr>
+          <tr><td>GPT-5.6 Sol (max)</td><td class="dim">closed</td><td class="num">61</td><td class="bar"><span class="b" style="--w:87.1%"></span></td></tr>
+          <tr><td>Grok 4.6</td><td class="dim">closed</td><td class="num">61</td><td class="bar"><span class="b" style="--w:87.1%"></span></td></tr>
+          <tr><td>Kimi K3 (max)</td><td class="dim">open</td><td class="num">60</td><td class="bar"><span class="b alt" style="--w:85.7%"></span></td></tr>
+          <tr><td>GLM-5.3 (max)</td><td class="dim">open</td><td class="num">60</td><td class="bar"><span class="b alt" style="--w:85.7%"></span></td></tr>
+          <tr><td>Qwen3.8 2.4T A95B</td><td class="dim">open</td><td class="num">58</td><td class="bar"><span class="b alt" style="--w:82.9%"></span></td></tr>
+          <tr><td>GPT-5.6 Luna (max)</td><td class="dim">closed</td><td class="num">52</td><td class="bar"><span class="b" style="--w:74.3%"></span></td></tr>
+          <tr><td>Qwen 3.8 27B</td><td class="dim">open</td><td class="num">52</td><td class="bar"><span class="b alt" style="--w:74.3%"></span></td></tr>
+        </table>
+        <p class="legend"><i></i>closed &nbsp; <i class="alt"></i>open weights &nbsp;· <a href="https://artificialanalysis.ai/leaderboards/models">Artificial Analysis</a>, checked Sun 30 Aug · 52-point scores via <a href="https://simonwillison.net/2026/Aug/17/qwen-38-27b-scores-52/">Willison, 17 Aug</a></p>
+      </div>
+    </article>
+
+    <p class="also"><b>Also</b> Qwen 3.8 27B overthinks by default; <a href="https://simonwillison.net/2026/Aug/16/qwen-38-27b/">Willison's review</a> recommends capping reasoning effort · a 27B Apache-2 model now matches last year's frontier and runs on a laptop.</p>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="page c-tools" id="tools">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Agents &amp; tooling</span><a class="more" data-cat="tools" href="#wire">more → wire</a></h2>
+    <article class="main" data-story>
+      <h3>Anthropic opens the Model Hardware Standard for agents operating physical devices</h3>
+      <p class="standfirst">A shared interface between agents and instruments, in research preview with science labs and manufacturers. Elizabeth Kelly calls it a USB-C for agent-to-machine communication; open sourcing is planned, as with MCP.</p>
+      <p class="byline">Anthropic · CNBC · Thu 27 Aug</p>
+      <ul class="related">
+        <li><a href="https://www.cnbc.com/2026/08/27/anthropic-pushes-into-physical-world-with-new-standard-to-help-ai-agents-operate-machines.html">CNBC on the standard and the first cohort</a><span class="rs">cnbc.com</span></li>
+        <li><a href="https://www.anthropic.com/news">Alongside it: 10,000 free and discounted Claude seats for scientists</a><span class="rs">anthropic.com</span></li>
+      </ul>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://simonwillison.net/2026/Aug/24/llm-anthropic/">Anthropic SDK 1.0 and OpenAI SDK 3.0 both swap httpx for httpx2</a></h4>
+      <p>Fresh installs can break if <code>httpx</code> only arrived transitively; Willison's LLM tool did. Fresh install in CI, pin, migrate.</p>
+      <p class="meta">Simon Willison · Mon 24 · <a href="https://github.com/anthropics/anthropic-sdk-python/blob/v1.0.0/MIGRATION.md">migration guide</a> · <a href="https://github.com/openai/openai-python/releases/tag/v3.0.0">openai-python 3.0.0</a></p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://pauldix.com/the-end-of-programming">Bun 1.4: the AI-written Rust rewrite reaches a stable release</a></h4>
+      <p>2,900 fixes and a browser-automation API. Paul Dix reads it as proof that an oracle plus direction lets an AI build and refine a million-line system.</p>
+      <p class="meta">Paul Dix · Wed 26 · <a href="https://bun.com/blog/bun-v1.4">release notes</a> · <a href="https://simonwillison.net/2026/Aug/20/bun-webview-json-api/">Willison on 1.4</a></p>
+    </article>
+
+    <p class="also"><b>Also</b> <a href="https://simonwillison.net/2026/Aug/24/your-executable-is-a-sqlite-database/">SELF</a>: a SQLite database file that is also an ELF executable · Ronacher in Vienna on Thursday: <a href="https://lucumr.pocoo.org/talks/">"How to vibe code to a billion dollars"</a>.</p>
+  </section>
+
+  <!-- SECURITY -->
+  <section class="page c-security" id="security">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Security</span><a class="more" data-cat="security" href="#wire">more → wire</a></h2>
+    <article class="main" data-story>
+      <h3>Claude Code's auto mode bypassed with a zip archive, about 80% of the time</h3>
+      <p class="standfirst">Auto mode became the default on 8 August. Rehberger's attack unpacks a zip that plants a local <code>struct.py</code>; in some runs the classifier blocked Claude's own cleanup. Willison's rule stands: unattended agents run in a container or VM, restricted egress, no credentials in reach.</p>
+      <p class="byline">Embrace The Red · Simon Willison · Thu 27 Aug</p>
+      <ul class="related">
+        <li><a href="https://embracethered.com/blog/posts/2026/breaking-claude-code-opus-5-and-automode/">Rehberger's write-up</a><span class="rs">embracethered.com</span></li>
+        <li><a href="https://simonwillison.net/2026/Aug/27/breaking-claude-code-opus-5-auto-mode/">Willison's notes and mitigations</a><span class="rs">simonwillison.net</span></li>
+        <li><a href="https://simonwillison.net/2026/Aug/8/auto-mode/">Background: auto mode became the default on 8 Aug</a><span class="rs">simonwillison.net</span></li>
+      </ul>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://anil.recoil.org/notes/rumour-is-the-exploit">Exploit probes within ten minutes of a patch being discussed</a></h4>
+      <p>rclone received 40+ security disclosures last month against 20 in its first decade; GitHub CVE assignment now takes three to four weeks.</p>
+      <p class="meta">Anil Madhavapeddy · Fri 28 · <a href="https://news.ycombinator.com/item?id=49480466">Hacker News</a> · <a href="https://simonwillison.net/2026/Aug/28/just-a-rumour-of-a-bug/">Willison</a></p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://openai.com/news/">OpenAI publishes its post-mortem of the Hugging Face attack</a></h4>
+      <p>OpenAI concedes it could have reacted sooner; METR and Redwood Research add partial outside analysis.</p>
+      <p class="meta">OpenAI · Wed 26 · <a href="https://thezvi.substack.com/p/ai-183-pre-post-mortem">Zvi's reading, AI #183</a> · <a href="https://simonwillison.net/2026/Aug/7/openai-timeline/">Willison's timeline</a></p>
+    </article>
+
+    <p class="also"><b>Also</b> OpenAI's next model is called Astra; Zvi's mid-August issue on it was titled "Astra Goes Cyber Critical" · <a href="https://thezvi.substack.com/p/anthropic-risk-report-august-2026">Zvi on the Anthropic Risk Report</a>: coverage to 15 July, cyber oddly excluded.</p>
+  </section>
+
+</div>
+
+<div class="band band-2">
+  <!-- MONEY -->
+  <section class="page c-money" id="money">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Money &amp; compute</span><a class="more" data-cat="money" href="#wire">more → wire</a></h2>
+    <article class="main" data-story>
+      <h3>Anthropic's run-rate reaches $65bn; the expensive model is a small share of the bill</h3>
+      <p class="standfirst">$65bn annualised in July, up from $47bn in May; a profitable Q3 expected; 6,000 customers above $100k a year. OpenAI: above $40bn, up 35% in the quarter. Ramp's card data shows the mix: Opus 4.8 at 28% of Anthropic spend, Fable 5 at 8%.</p>
+      <p class="byline">FT via Simon Willison · Ramp AI Index · Sun 23 Aug</p>
+      <div class="figures">
+        <h4>Share of Anthropic model spend on Ramp cards, July 2026</h4>
+        <p class="cap">Top ten models. Opus 5 shipped 24 July, so it had one week. Bars scaled to 30%.</p>
+        <table class="data t-money">
+          <tr><th>Model</th><th>Share</th><th></th></tr>
+          <tr><td>Opus 4.8</td><td class="num">28.0%</td><td class="bar"><span class="b" style="--w:93.3%"></span></td></tr>
+          <tr><td>Sonnet 4.6</td><td class="num">8.3%</td><td class="bar"><span class="b" style="--w:27.7%"></span></td></tr>
+          <tr><td>Fable 5</td><td class="num">8.0%</td><td class="bar"><span class="b alt" style="--w:26.7%"></span></td></tr>
+          <tr><td>Opus 4.6</td><td class="num">6.9%</td><td class="bar"><span class="b" style="--w:23%"></span></td></tr>
+          <tr><td>Sonnet 5</td><td class="num">3.6%</td><td class="bar"><span class="b" style="--w:12%"></span></td></tr>
+          <tr><td>Opus 5</td><td class="num">3.5%</td><td class="bar"><span class="b alt" style="--w:11.7%"></span></td></tr>
+          <tr><td>Opus 4.7</td><td class="num">1.7%</td><td class="bar"><span class="b" style="--w:5.7%"></span></td></tr>
+          <tr><td>Sonnet 4.5</td><td class="num">1.3%</td><td class="bar"><span class="b" style="--w:4.3%"></span></td></tr>
+          <tr><td>Haiku 4.5</td><td class="num">1.0%</td><td class="bar"><span class="b" style="--w:3.3%"></span></td></tr>
+          <tr><td>Opus 4.5</td><td class="num">0.7%</td><td class="bar"><span class="b" style="--w:2.3%"></span></td></tr>
+        </table>
+        <p class="legend"><i></i>earlier generations &nbsp; <i class="alt"></i>released summer 2026 &nbsp;· <a href="https://ramp.com/data/ai-index">Ramp AI Index</a> via <a href="https://simonwillison.net/2026/Aug/23/anthropics-best-ai-model-struggles-to-attract-users-as-cheaper-t/">Willison</a></p>
+      </div>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://openai.com/news/">Jalapeño, OpenAI's inference chip, posts first results; SoftBank lines up more debt</a></h4>
+      <p>Built with Broadcom, taped out in 16 months on TSMC N3P; SemiAnalysis has the teardown. SoftBank weighed $20bn in bonds, then a further $10bn loan, to fund its stake.</p>
+      <p class="meta">OpenAI · Tue 25 to Wed 26 · <a href="https://www.bloomberg.com/latest/openai">Bloomberg</a> · <a href="https://aiweekly.co/ai-news-today">the SemiAnalysis deep dive</a></p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://www.bloomberg.com/latest/anthropic">Anthropic's fortnight: a $45bn compute deal, record-size IPO plans, a court win</a></h4>
+      <p>A $45bn Nscale computing deal, an IPO expected to match SpaceX's June record, Zoom's stake at $3bn, and a court win against a US supply-chain risk label.</p>
+      <p class="meta">Bloomberg · 21 to 27 Aug</p>
+    </article>
+
+    <p class="also"><b>Also</b> OpenAI's infrastructure essay <a href="https://openai.com/news/">"The full stack behind abundant intelligence"</a> · data-centre executive Chris Malone has left OpenAI.</p>
+  </section>
+
+  <!-- OPINION -->
+  <section class="page c-opinion" id="opinion">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Opinion</span><a class="more" data-cat="opinion" href="#wire">more → wire</a></h2>
+    <div class="columns">
+      <article class="column" data-story>
+        <p class="who"><b>Armin Ronacher</b> · Sat 22 and Mon 24 Aug</p>
+        <h3>LLMs changed how people pick languages, and raised the question of who the villain is</h3>
+        <p>LLMs cut the link between knowing a language and choosing one, so Rust and Zig gain ("Fast and Hard Code"). Two days later: who is the AI villain we should be angry at?</p>
+        <p class="sources"><a href="https://lucumr.pocoo.org/2026/8/22/fast-hard-code/">Fast and Hard Code</a> · <a href="https://lucumr.pocoo.org/2026/8/24/anger-anxiety-agency/">Anger, Anxiety and Agency</a></p>
+      </article>
+      <article class="column" data-story>
+        <p class="who"><b>Simon Willison</b> · Sat 22 Aug</p>
+        <h3>The skill is confident instruction plus confident verification</h3>
+        <p>Reading every line was never the best check; tests, demos and other verification scale with agents.</p>
+        <p class="sources"><a href="https://simonwillison.net/2026/Aug/22/more-than-just-code-review/">Read</a></p>
+      </article>
+      <article class="column" data-story>
+        <p class="who"><b>Drew Breunig</b> · Sun 23 Aug</p>
+        <h3>Fable ended the free lunch</h3>
+        <p>The next model no longer papers over a weak harness at the same price. <q>So we started to think about what work went where.</q></p>
+        <p class="sources"><a href="https://www.dbreunig.com/2026/08/23/fable-the-end-of-moore-s-law.html">Read</a></p>
+      </article>
+      <article class="column" data-story>
+        <p class="who"><b>Linus Torvalds</b> · Sat 22 Aug</p>
+        <h3>Credit where due, in a kernel commit message</h3>
+        <p>A debug session from hell, an AI that wanted to give up several times and kept going when pushed. He let it write the commit message.</p>
+        <p class="sources"><a href="https://github.com/torvalds/linux/commit/818bebeb63dd6bf5f4e07e145f6cdbace520a34c">The commit</a></p>
+      </article>
+      <article class="column" data-story>
+        <p class="who"><b>Dario Amodei</b> · 16 Aug, still circulating</p>
+        <h3>Public distrust is a decades-old trust problem; marketing will not fix it</h3>
+        <p>The distrust is aimed at institutions in general, and the fair criticism is undelivered promises. <q>The thing that will work is actually curing cancer.</q></p>
+        <p class="sources"><a href="https://simonwillison.net/2026/Aug/16/dario-amodei/">Via Willison</a></p>
+      </article>
+    </div>
+  </section>
+
+</div>
+
+<div class="band band-3">
+  <!-- AUDIO -->
+  <section class="page c-audio" id="audio">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Audio</span></h2>
+    <article class="episode" data-story>
+      <div class="len">1h 17m<small>Dwarkesh Podcast<br>Tue 25 Aug</small></div>
+      <div>
+        <h3>Dylan Patel: Anthropic and OpenAI will hold most of the world's usable FLOPs by 2027-28</h3>
+        <p>Lab economics for the next few years: the shift back toward training as recursive self-improvement nears, why the two leading labs can outbid everyone for compute, and whether $10T of capex by 2030 becomes a sovereign debt problem.</p>
+        <p class="sources"><a href="https://www.dwarkesh.com/podcast">Episode page and transcript</a></p>
+      </div>
+    </article>
+  </section>
+
+  <!-- BACK PAGES -->
+  <section class="page c-back" id="back">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Back pages</span><span style="order:2;font:500 12px/1 var(--mono);color:var(--muted);letter-spacing:.04em;text-transform:none">worth re-reading</span></h2>
+    <article class="river" data-story style="margin-top:0;padding-top:0;border-top:0">
+      <h4><a href="https://www.oneusefulthing.org/">Ethan Mollick: "An opinionated guide to which AI to use to do stuff"</a></h4>
+      <p>The summer 2026 edition: picks by task, and it untangles Work, Cowork, Codex and Claude Code. One Useful Thing was quiet this week.</p>
+      <p class="meta">One Useful Thing · 23 Jul</p>
+    </article>
+    <article class="river" data-story>
+      <h4><a href="https://simonwillison.net/2026/Aug/19/conceptual-integrity-and-counting-lines-of-code/">Simon Willison: "Conceptual integrity and counting lines of code"</a></h4>
+      <p>Highlights from his Talking Postgres episode on how AI is changing software development.</p>
+      <p class="meta">simonwillison.net · 19 Aug</p>
+    </article>
+    <article class="river" data-story>
+      <h4><a href="https://lucumr.pocoo.org/2026/6/23/the-coming-loop/">Armin Ronacher: "The Coming Loop"</a></h4>
+      <p>Harnesses that keep work alive past the model's "I am done". The pattern behind this week's auto-mode story.</p>
+      <p class="meta">lucumr.pocoo.org · 23 Jun</p>
+    </article>
+  </section>
+
+  <!-- AND FINALLY -->
+  <section class="page finally c-finally" id="finally">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">And finally</span></h2>
+    <article data-story>
+      <h3>EVE Online begins its move to Python 3</h3>
+      <p>2.4 million lines of spaceship MMO, 16 years on Stackless Python 2.7, about 20,000 places where behaviour differs, and the migration is finally under way. Somewhere a maintainer is very tired and very happy.</p>
+      <p class="sources"><a href="https://simonwillison.net/2026/Aug/25/eve-online-move-to-python-3/">Via Willison, Tue 25</a></p>
+    </article>
+  </section>
+
+</div>
+
+<main class="wrap">
+  <!-- WIRE -->
+  <section class="page wire c-wire" id="wire">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Wire</span><button id="wireToggle" type="button" aria-expanded="false" aria-controls="wireBody" style="order:2">[show 28 items]</button></h2>
+    <div class="wire-body" id="wireBody" hidden>
+      <div class="filters" role="group" aria-label="Filter the wire">
+        <button type="button" data-cat="all" aria-pressed="true">all</button>
+        <button type="button" data-cat="models" aria-pressed="false">models</button>
+        <button type="button" data-cat="tools" aria-pressed="false">tools</button>
+        <button type="button" data-cat="security" aria-pressed="false">security</button>
+        <button type="button" data-cat="money" aria-pressed="false">money</button>
+        <button type="button" data-cat="opinion" aria-pressed="false">opinion</button>
+      </div>
+      <ul>
+        <li class="day">Sat 29 Aug</li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://simonwillison.net/2026/Aug/29/hy4/">Tencent releases Hy4 Preview</a><span class="s">Simon Willison · 770B total, 49B active, 1M context</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://openai.com/index/our-decision-on-cursor-following-its-acquisition-by-spacex/">OpenAI will wind down its Cursor contract</a><span class="s">OpenAI · proposed shutoff 12 Nov</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://www.cnbc.com/2026/08/29/openai-cursor-spacex-model-access.html">Cursor: 5% of traffic; Anthropic: more compute for Claude in Cursor</a><span class="s">CNBC · Musk replies on X</span></div></li>
+
+        <li class="day">Fri 28 Aug</li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://simonwillison.net/2026/Aug/28/just-a-rumour-of-a-bug/">A rumour of a bug is enough to find an exploit</a><span class="s">Simon Willison · probes in ten minutes; rclone's 40+ disclosures</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://aiweekly.co/ai-news-today">SemiAnalysis deep dive on Jalapeño</a><span class="s">AI Weekly · Broadcom, 16 months, TSMC N3P</span></div></li>
+
+        <li class="day">Thu 27 Aug</li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://www.cnbc.com/2026/08/27/anthropic-pushes-into-physical-world-with-new-standard-to-help-ai-agents-operate-machines.html">Model Hardware Standard enters research preview</a><span class="s">Anthropic · CNBC</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://simonwillison.net/2026/Aug/27/breaking-claude-code-opus-5-auto-mode/">Breaking Claude Code's auto mode</a><span class="s">Simon Willison · Rehberger's zip trick, about 80% success</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://thezvi.substack.com/p/ai-183-pre-post-mortem">AI #183: Pre Post Mortem</a><span class="s">Zvi · held a day for the Hugging Face report</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://www.bloomberg.com/latest/anthropic">Anthropic wins court challenge to US supply-chain risk label</a><span class="s">Bloomberg</span></div></li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://lucumr.pocoo.org/talks/">Talk: "How to vibe code to a billion dollars"</a><span class="s">Armin Ronacher · Tech Soirée Vienna</span></div></li>
+
+        <li class="day">Wed 26 Aug</li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://simonwillison.net/2026/Aug/26/qwen38-flash-next/">Qwen3.8-Flash-Next</a><span class="s">Simon Willison · 125B total, 6B active</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://openai.com/news/">"The Hugging Face incident and the road ahead"</a><span class="s">OpenAI · post-mortem</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://openai.com/news/">"The full stack behind abundant intelligence"</a><span class="s">OpenAI · infrastructure essay</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://www.bloomberg.com/latest/openai">SoftBank seeks another $10bn loan for its OpenAI stake</a><span class="s">Bloomberg</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://www.bloomberg.com/latest/anthropic">Zoom's Anthropic stake now worth $3bn</a><span class="s">Bloomberg</span></div></li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://pauldix.com/the-end-of-programming">The end of programming</a><span class="s">Paul Dix · on Bun's Rust rewrite</span></div></li>
+
+        <li class="day">Tue 25 Aug</li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://openai.com/news/">Jalapeño's first results</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://www.dwarkesh.com/podcast">Dylan Patel on who will own the FLOPs</a><span class="s">Dwarkesh Podcast · 1h 17m</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://www.bloomberg.com/latest/openai">SoftBank mulls up to $20bn bond sale; Chris Malone departs OpenAI</a><span class="s">Bloomberg</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Aug/25/eve-online-move-to-python-3/">EVE Online begins its move to Python 3</a><span class="s">Simon Willison · 2.4M lines, 16 years on Stackless 2.7</span></div></li>
+
+        <li class="day">Mon 24 Aug</li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://lucumr.pocoo.org/2026/8/24/anger-anxiety-agency/">Anger, Anxiety and Agency</a><span class="s">Armin Ronacher</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Aug/24/llm-anthropic/">llm-anthropic 0.27 for the Anthropic SDK 1.0</a><span class="s">Simon Willison · httpx to httpx2</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Aug/24/your-executable-is-a-sqlite-database/">Your executable is a SQLite database</a><span class="s">Simon Willison · Farid Zakaria's SELF format</span></div></li>
+
+        <li class="day">Sun 23 Aug · carried over</li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://simonwillison.net/2026/Aug/23/anthropics-best-ai-model-struggles-to-attract-users-as-cheaper-t/">FT: Anthropic run-rate $65bn; Ramp's model-spend breakdown</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://www.dbreunig.com/2026/08/23/fable-the-end-of-moore-s-law.html">Fable and the end of the free lunch</a><span class="s">Drew Breunig</span></div></li>
+
+        <li class="day">Sat 22 Aug · carried over</li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://lucumr.pocoo.org/2026/8/22/fast-hard-code/">Fast and Hard Code</a><span class="s">Armin Ronacher</span></div></li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://simonwillison.net/2026/Aug/22/more-than-just-code-review/">More than just code review</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://github.com/torvalds/linux/commit/818bebeb63dd6bf5f4e07e145f6cdbace520a34c">A kernel commit that credits the AI</a><span class="s">Linus Torvalds</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- COLOPHON -->
+  <section class="colophon c-neutral" id="colophon">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Colophon</span></h2>
+    <p>Compiled by hand inside a Claude chat on Sunday morning, from the sources the automated version would poll. The automated version pulls RSS and Atom feeds plus a few public pages on a schedule, drops anything already seen, groups duplicates into story packages, and fills this template. Summaries are original, quotes are short and at most one per source, everything links out. Regional, education and hiring posts from labs are filtered (four this week). X and Discord are not polled.</p>
+    <div class="figures">
+      <h4>Sources polled</h4>
+      <p class="cap">11 checked · 2 quiet · 28 wire items. Counts include items relayed through a source.</p>
+      <table class="data">
+        <tr><th>Source</th><th>Kind</th><th>Feed</th><th>Kept</th></tr>
+        <tr><td>Simon Willison's Weblog</td><td class="dim">blog</td><td class="dim">Atom</td><td class="num">12</td></tr>
+        <tr><td>Armin Ronacher</td><td class="dim">blog</td><td class="dim">Atom</td><td class="num">3</td></tr>
+        <tr><td>Don't Worry About the Vase (Zvi)</td><td class="dim">newsletter</td><td class="dim">RSS</td><td class="num">1</td></tr>
+        <tr><td>Dwarkesh Podcast</td><td class="dim">podcast</td><td class="dim">RSS</td><td class="num">1</td></tr>
+        <tr><td>OpenAI News</td><td class="dim">lab blog</td><td class="dim">RSS</td><td class="num">4</td></tr>
+        <tr><td>Anthropic News</td><td class="dim">lab blog</td><td class="dim">page</td><td class="num">1</td></tr>
+        <tr><td>Artificial Analysis</td><td class="dim">tracker</td><td class="dim">page</td><td class="num">1</td></tr>
+        <tr><td>Bloomberg AI, CNBC, AI Weekly</td><td class="dim">press</td><td class="dim">RSS</td><td class="num">6</td></tr>
+        <tr><td>Interconnects</td><td class="dim">newsletter</td><td class="dim">RSS</td><td class="num">quiet</td></tr>
+        <tr><td>One Useful Thing</td><td class="dim">newsletter</td><td class="dim">RSS</td><td class="num">quiet</td></tr>
+      </table>
+    </div>
+    <p class="keys"><kbd>j</kbd> <kbd>k</kbd> next / previous story &nbsp; <kbd>o</kbd> open its first source &nbsp; <kbd>w</kbd> wire &nbsp; <kbd>t</kbd> theme</p>
+    <p class="end">the sunday rebase · issue 1 · <code>0 7 * * 0</code> · next run sun 6 sep 2026, 07:00 cest</p>
+  </section>
+
+</main>
+
+<script>
+(function(){
+  var root=document.documentElement;
+
+  /* theme: light by default, manual dark */
+  var themeBtn=document.getElementById('theme');
+  function effectiveTheme(){ return root.getAttribute('data-theme')==='dark' ? 'dark' : 'light'; }
+  function syncTheme(){ themeBtn.textContent = effectiveTheme()==='light' ? '[dark]' : '[light]'; }
+  function toggleTheme(){ root.setAttribute('data-theme', effectiveTheme()==='light' ? 'dark' : 'light'); syncTheme(); }
+  themeBtn.addEventListener('click',toggleTheme);
+  syncTheme();
+
+  /* progress bar */
+  var bar=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0? (window.scrollY/h*100):0)+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* wire toggle + filters */
+  var wireBtn=document.getElementById('wireToggle'), wireBody=document.getElementById('wireBody');
+  function setWire(open){
+    wireBody.hidden=!open;
+    wireBtn.setAttribute('aria-expanded',open?'true':'false');
+    wireBtn.textContent=open?'[hide]':'[show 28 items]';
+  }
+  wireBtn.addEventListener('click',function(){ setWire(wireBody.hidden); });
+  var chips=document.querySelectorAll('.filters button');
+  var list=document.querySelector('.wire ul');
+  function filter(cat){
+    var day=null, has=false;
+    Array.prototype.forEach.call(list.children,function(n){
+      if(n.classList.contains('day')){ if(day){day.hidden=!has;} day=n; has=false; }
+      else{ var show=(cat==='all')||(n.dataset.cat===cat); n.hidden=!show; if(show){has=true;} }
+    });
+    if(day){day.hidden=!has;}
+  }
+  function setFilter(cat){
+    chips.forEach(function(x){x.setAttribute('aria-pressed', x.dataset.cat===cat ? 'true':'false');});
+    filter(cat);
+  }
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){ setFilter(c.dataset.cat); });
+  });
+
+  /* per-section "more → wire" links: open the wire pre-filtered */
+  document.querySelectorAll('.pagehead .more[data-cat]').forEach(function(m){
+    m.addEventListener('click',function(){
+      setWire(true);
+      setFilter(m.dataset.cat);
+    });
+  });
+
+  /* keyboard: j/k stories, o open source, w wire, t theme */
+  var stories=Array.prototype.slice.call(document.querySelectorAll('[data-story]'));
+  var idx=-1;
+  function focusStory(i){
+    if(i<0||i>=stories.length) return;
+    if(idx>=0) stories[idx].classList.remove('kb');
+    idx=i; var el=stories[idx];
+    el.classList.add('kb');
+    el.scrollIntoView({block:'center'});
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    var tag=(e.target.tagName||'').toLowerCase();
+    if(tag==='input'||tag==='textarea') return;
+    if(e.key==='j'){ focusStory(Math.min(idx+1,stories.length-1)); e.preventDefault(); }
+    else if(e.key==='k'){ focusStory(Math.max(idx-1,0)); e.preventDefault(); }
+    else if(e.key==='o'||e.key==='Enter'){
+      if(idx>=0){ var a=stories[idx].querySelector('.related a, .sources a, .meta a, h4 a'); if(a){ window.open(a.href,'_blank','noopener'); } }
+    }
+    else if(e.key==='w'){ setWire(wireBody.hidden); if(!wireBody.hidden){ document.getElementById('wire').scrollIntoView({block:'start'}); } }
+    else if(e.key==='t'){ toggleTheme(); }
+  });
+})();
+</script>
+</body>
+</html>
