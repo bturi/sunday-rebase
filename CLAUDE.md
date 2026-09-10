@@ -49,7 +49,9 @@ masthead pre, masthead text, aria-label, colophon end line) so a rename
 stays a one-pass job. Keep the issue picker markup in the dateline (the
 `issue-menu` span with its button and list); its script fills the list from
 `issues/index.json`. The icons live at the repo root: `favicon.svg` is the
-source, the two PNGs are rendered from it.
+source (a git graph, bare, no tile), `favicon.png` is it at 32px on a
+transparent ground, `apple-touch-icon.png` is the same mark at 70% on a
+cream tile.
 
 ## Voice, in one line
 
