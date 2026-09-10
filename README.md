@@ -29,6 +29,9 @@ No servers, no buckets, no secrets: Pages hosts, the built-in token deploys.
 2. Repo Settings > Pages > Source: GitHub Actions. Then run the
    "Deploy the paper" workflow once from the Actions tab (or just push);
    issue 1 goes live.
+   Optional: a custom domain in the same Pages settings (this paper is at
+   https://sundayrebase.com). Once the certificate shows as approved, turn
+   on "Enforce HTTPS" there, or the old github.io link lands on plain http.
 3. In Claude Code on the web (code.claude.com), create a Routine:
    connect this repo, paste ROUTINE.md as the prompt, schedule weekly,
    Sunday 07:00, Europe/Budapest.
