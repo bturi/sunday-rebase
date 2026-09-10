@@ -84,6 +84,14 @@ class Build(unittest.TestCase):
         self.assertIn('url=issues/2026-09-09.html', index)
         self.assertIn('href="favicon.svg"', index)
 
+    def test_index_redirects_before_first_paint_and_keeps_a_fallback(self):
+        index = (self.out / "index.html").read_text(encoding="utf-8")
+        head, body = index.split("<body", 1)
+        self.assertIn('location.replace("issues/2026-09-09.html")', head)
+        self.assertIn('href="issues/2026-09-09.html"', body)
+        self.assertIn('href="archive.html"', body)
+        self.assertIn("animation", head)  # fallback links stay invisible until the redirect had its chance
+
     def test_archive_lists_every_issue_newest_first(self):
         archive = (self.out / "archive.html").read_text(encoding="utf-8")
         newest = archive.index("issues/2026-09-09.html")

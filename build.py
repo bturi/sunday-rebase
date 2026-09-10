@@ -42,11 +42,24 @@ def manifest(issues):
 
 
 def index_html(latest):
+    """The front door: sends the reader to the newest issue before anything is painted.
+
+    The script runs while the head is parsed, so the browser never draws this
+    page; the meta refresh covers readers without script, and the links only
+    fade in if neither redirect happened.
+    """
+    target = f"issues/{latest['file']}"
     return (
         '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
-        f'<meta http-equiv="refresh" content="0; url=issues/{latest["file"]}">'
-        f"<title>The Sunday Rebase</title>{ICON_LINKS}</head>"
-        f'<body><a href="issues/{latest["file"]}">Latest issue</a> · <a href="archive.html">Archive</a></body></html>\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">'
+        '<meta name="theme-color" content="#F6F4EE">'
+        f"<title>The Sunday Rebase</title>{ICON_LINKS}"
+        f'<script>location.replace("{target}")</script>'
+        f'<meta http-equiv="refresh" content="0; url={target}">'
+        "<style>html{background:#F6F4EE}body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;"
+        "font:16px/1.7 system-ui,sans-serif;color:#1C1D2A}a{color:#2B5BD7}"
+        "p{opacity:0;animation:show .3s 1.5s forwards}@keyframes show{to{opacity:1}}</style></head>"
+        f'<body><p><a href="{target}">Latest issue</a> · <a href="archive.html">Archive</a></p></body></html>\n'
     )
 
 
