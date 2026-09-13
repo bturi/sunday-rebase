@@ -43,6 +43,11 @@ Bookmark the Pages URL on your phone. Done.
 - The routine only ever writes issues/YYYY-MM-DD.html and pushes. It never
   touches index.html, the archive or issues/index.json; the Action derives
   those from the folder, so a half-finished run cannot break the front door.
+- Pages caches every file for ten minutes, so right after a deploy the front
+  door can still point at the previous issue. Each issue page therefore
+  fetches a fresh issues/index.json and, if a newer issue exists, hops to it
+  when the reader came through the front door or shows an "Issue N is out"
+  line above the ticker otherwise.
 - Local preview with a working issue picker: python3 build.py _site, then
   python3 -m http.server --directory _site and open /issues/ in a browser.
 - One run per week sits far inside Routine plan limits (5/day on Pro).

@@ -47,8 +47,9 @@ If asked to change the look, edit the CSS or skeleton of the newest issue
 only; the next issue inherits it. Keep the name in its five strings (title,
 masthead pre, masthead text, aria-label, colophon end line) so a rename
 stays a one-pass job. Keep the issue picker markup in the dateline (the
-`issue-menu` span with its button and list); its script fills the list from
-`issues/index.json`. The icons live at the repo root: `favicon.svg` is the
+`issue-menu` span with its button and list) and the empty `newer` div above
+the ticker; the script fills both from `issues/index.json`, and uses the
+latter to send readers on to a newer issue than the page they landed on. The icons live at the repo root: `favicon.svg` is the
 source (a git graph, bare, no tile), `favicon.png` is it at 32px on a
 transparent ground, `apple-touch-icon.png` is the same mark at 70% on a
 cream tile.

@@ -90,6 +90,9 @@
 
   /* progress + ticker + masthead */
   #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:20;background:linear-gradient(90deg,var(--blue),var(--purple),var(--cyan))}
+  .newer{text-align:center;font:12.5px/1.6 var(--mono);color:var(--fg-dim);padding:10px 20px;background:var(--bg-2);border-bottom:1px solid var(--line)}
+  .newer[hidden]{display:none}
+  .newer a{font-weight:600}
   .ticker{text-align:center;font:12.5px/1.6 var(--mono);color:var(--muted);padding:14px 20px;border-bottom:1px solid var(--line)}
   .ticker b{color:var(--orange);font-weight:600}
   .masthead{text-align:center;padding:var(--s5) 20px var(--s4)}
@@ -267,6 +270,7 @@
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
+<div class="newer" id="newer" hidden></div>
 
 <div class="ticker"><b>top story →</b> <a href="#lead">The frontier shipped all at once; Fable 5.1 and Astra split the crown</a></div>
 
@@ -694,9 +698,21 @@
   pick.addEventListener('click',function(e){ e.stopPropagation(); setMenu(menu.hidden); });
   document.addEventListener('click',function(e){ if(!menu.hidden && !menu.contains(e.target)){ setMenu(false); } });
   window.addEventListener('resize',function(){ if(!menu.hidden){ placeMenu(); } });
-  fetch('index.json',{cache:'no-cache'})
+  /* a newer issue than this page: hop to it when the reader came in through the front door
+     (which may have been served from a stale cache), otherwise say so above the ticker */
+  function announceNewer(newest){
+    if(!newest || newest.file===here) return;
+    var root=new URL('../',location.href).href;
+    if(document.referrer===root || document.referrer===root+'index.html'){ location.replace(newest.file); return; }
+    var box=document.getElementById('newer'), a=document.createElement('a');
+    a.href=newest.file; a.textContent='read it →';
+    box.textContent='Issue '+newest.n+' is out · '+dayLabel(newest.date)+' · ';
+    box.appendChild(a); box.hidden=false;
+  }
+  /* the CDN caches files for ten minutes; a per-minute key keeps the manifest fresh without hammering it */
+  fetch('index.json?m='+Math.floor(Date.now()/60000))
     .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
-    .then(function(data){ renderIssues(data.issues||[]); })
+    .then(function(data){ var issues=data.issues||[]; renderIssues(issues); announceNewer(issues[0]); })
     .catch(function(){ /* no manifest, e.g. a local file preview: the archive link still works */ });
 
   /* progress bar */
