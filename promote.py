@@ -58,7 +58,7 @@ def main(argv=None):
     errors = promotion_errors(changes)
     if errors:
         for error in errors:
-            print(f"FAIL: {error}")
+            print(f"FAIL: {error}", file=sys.stderr)
         return 1
     print(added_issue(changes))
     return 0
