@@ -1,5 +1,7 @@
 """Tests for promote.py, the guard that decides whether a routine push may be
 fast-forwarded onto main."""
+import contextlib
+import io
 import sys
 import unittest
 from pathlib import Path
@@ -61,6 +63,24 @@ class PromotionErrors(unittest.TestCase):
             promote.promotion_errors(changes),
             ["unexpected change: M issues/2026-09-09.html"],
         )
+
+
+class Main(unittest.TestCase):
+    def run_main(self, changes):
+        promote.changed_files = lambda base, head: changes
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            code = promote.main(["origin/main", "HEAD"])
+        return code, out.getvalue(), err.getvalue()
+
+    def test_prints_the_issue_path_on_stdout_when_promotable(self):
+        code, out, err = self.run_main([("A", "issues/2026-09-13.html")])
+        self.assertEqual((code, out, err), (0, "issues/2026-09-13.html\n", ""))
+
+    def test_reports_errors_on_stderr_so_a_captured_stdout_stays_empty(self):
+        code, out, err = self.run_main([("M", "check.py")])
+        self.assertEqual((code, out), (1, ""))
+        self.assertIn("FAIL: unexpected change: M check.py", err)
 
 
 if __name__ == "__main__":
