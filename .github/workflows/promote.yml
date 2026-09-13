@@ -49,3 +49,9 @@ jobs:
         run: gh workflow run deploy.yml --ref main
         env:
           GH_TOKEN: ${{ github.token }}
+
+      # housekeeping only: the issue is already on main, so a failure here must not fail the run
+      - name: Delete the promoted branch
+        if: steps.guard.outputs.issue != ''
+        continue-on-error: true
+        run: git push origin --delete "$GITHUB_REF_NAME"

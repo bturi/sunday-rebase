@@ -20,8 +20,9 @@ A personal AI weekly that lives entirely in this repo.
                     deploys the result to GitHub Pages
 - .github/workflows/promote.yml, promote.py
                     on a push to a claude/ branch: if it adds exactly one
-                    valid new issue and nothing else, fast-forwards main and
-                    dispatches the deploy; a push that does not touch issues/
+                    valid new issue and nothing else, fast-forwards main,
+                    dispatches the deploy and deletes the branch; a push that
+                    does not touch issues/
                     ends with nothing to promote; anything in between fails
                     loudly and waits for a pull request
 
