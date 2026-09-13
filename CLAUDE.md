@@ -25,7 +25,9 @@ no build step, no dependencies beyond Python 3 for `check.py`.
 - `python3 check.py issues/<file>` must pass before committing. It enforces
   the mechanical rules (dashes, quote length, tag balance, links, dedupe,
   wire count, title). Fix the issue; do not weaken the checker.
-- Commit message: `issue N: YYYY-MM-DD`. Push to `main`.
+- Commit message: `issue N: YYYY-MM-DD`. Push to the session's `claude/` branch;
+  `promote.yml` fast-forwards `main` and deploys when the push is exactly one
+  valid new issue. Do not push to `main` yourself.
 
 ## Development
 

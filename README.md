@@ -11,14 +11,20 @@ A personal AI weekly that lives entirely in this repo.
                     issues/index.json (the list behind the issue picker in
                     the dateline), index.html (redirect to the newest issue),
                     archive.html (back-issue list) and the icons
-- tests/            unit tests for build.py: python3 -m unittest discover -s tests
+- tests/            unit tests for build.py, check.py and promote.py:
+                    python3 -m unittest discover -s tests
 - favicon.svg, favicon.png, apple-touch-icon.png
                     the tab and home-screen icon; the SVG is the source
 - .github/workflows/deploy.yml
-                    on every push: runs the tests, runs build.py, deploys
-                    the result to GitHub Pages
+                    on every push to main: runs the tests, runs build.py,
+                    deploys the result to GitHub Pages
+- .github/workflows/promote.yml, promote.py
+                    on a push to a claude/ branch: if it adds exactly one
+                    valid new issue and nothing else, fast-forwards main and
+                    dispatches the deploy
 
-Flow: Routine pushes a new issue file -> the Action deploys -> the paper is at
+Flow: Routine pushes a new issue file to its branch -> promote moves it to
+main -> the Action deploys -> the paper is at
 https://YOURNAME.github.io/REPONAME/ with an archive of every back issue.
 No servers, no buckets, no secrets: Pages hosts, the built-in token deploys.
 
