@@ -1,5 +1,8 @@
 """Guard for the promote workflow: a routine push may move onto main only when it
 adds exactly one dated issue and changes nothing else. Prints the issue path.
+
+A push that does not touch issues/ at all is not a routine's: it prints
+nothing and exits 0, so the workflow ends with nothing to promote.
 """
 import argparse
 import re
@@ -22,6 +25,10 @@ def parse_name_status(text):
 def is_new_issue(change):
     status, path = change
     return status == "A" and bool(ISSUE_PATH_RE.match(path))
+
+
+def touches_issues(changes):
+    return any(path.startswith("issues/") for _, path in changes)
 
 
 def added_issue(changes):
@@ -55,6 +62,9 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     changes = changed_files(args.base, args.head)
+    if not touches_issues(changes):
+        print("nothing to promote: this push does not touch issues/", file=sys.stderr)
+        return 0
     errors = promotion_errors(changes)
     if errors:
         for error in errors:

@@ -27,7 +27,9 @@ no build step, no dependencies beyond Python 3 for `check.py`.
   wire count, title). Fix the issue; do not weaken the checker.
 - Commit message: `issue N: YYYY-MM-DD`. Push to the session's `claude/` branch;
   `promote.yml` fast-forwards `main` and deploys when the push is exactly one
-  valid new issue. Do not push to `main` yourself.
+  valid new issue and nothing else. Do not push to `main` yourself. A branch
+  that changes anything besides adding one issue is never promoted; it goes
+  through a pull request.
 
 ## Development
 

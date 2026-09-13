@@ -3,6 +3,8 @@ name: Promote a new issue to main
 # The weekly routine can only push to a claude/ branch. When such a push adds
 # exactly one valid new issue and nothing else, this fast-forwards main and
 # dispatches the deploy (a push made with GITHUB_TOKEN does not trigger it).
+# A push that does not touch issues/ at all is a development session's branch,
+# not a routine's: the guard prints nothing and the run ends green.
 
 on:
   push:
@@ -27,19 +29,23 @@ jobs:
       - name: Run the test suite
         run: python3 -m unittest discover -s tests
 
-      - name: Require exactly one new issue and nothing else
+      - name: Is this push exactly one new issue?
         id: guard
         run: |
           issue=$(python3 promote.py origin/main HEAD)
           echo "issue=$issue" >> "$GITHUB_OUTPUT"
+          [ -n "$issue" ] || echo "::notice::Nothing to promote: this push does not touch issues/."
 
       - name: Check the issue
+        if: steps.guard.outputs.issue != ''
         run: python3 check.py "${{ steps.guard.outputs.issue }}"
 
       - name: Fast-forward main
+        if: steps.guard.outputs.issue != ''
         run: git push origin HEAD:main
 
       - name: Deploy
+        if: steps.guard.outputs.issue != ''
         run: gh workflow run deploy.yml --ref main
         env:
           GH_TOKEN: ${{ github.token }}

@@ -27,10 +27,14 @@ Steps:
    - every story and wire item has an outbound link
    - HTML tags balanced, file opens as valid HTML
    - no item asserts anything not present in the fetched material
-6. Save as issues/YYYY-MM-DD.html using today's date. Commit it with the
-   message "issue N: YYYY-MM-DD" and push. Do not touch index.html,
-   archive.html or issues/index.json; the deploy workflow generates them from
-   the issues folder.
+6. Save as issues/YYYY-MM-DD.html using today's date and run
+   python3 check.py on it; fix and re-run until it prints OK. Commit only that
+   one file, with the message "issue N: YYYY-MM-DD", and push to your own
+   claude/ branch, which is the default. Do not push to main and do not open
+   or merge anything by hand: the promote workflow fast-forwards main and
+   deploys as soon as the push is exactly one new issue file and nothing else.
+   Do not touch index.html, archive.html or issues/index.json; the deploy
+   workflow generates them from the issues folder.
 
 Failure behaviour: an unreachable or empty source is listed as quiet in the
 colophon; never guess its content. If the whole week yields fewer than 8 items,

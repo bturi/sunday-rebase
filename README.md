@@ -21,7 +21,9 @@ A personal AI weekly that lives entirely in this repo.
 - .github/workflows/promote.yml, promote.py
                     on a push to a claude/ branch: if it adds exactly one
                     valid new issue and nothing else, fast-forwards main and
-                    dispatches the deploy
+                    dispatches the deploy; a push that does not touch issues/
+                    ends with nothing to promote; anything in between fails
+                    loudly and waits for a pull request
 
 Flow: Routine pushes a new issue file to its branch -> promote moves it to
 main -> the Action deploys -> the paper is at

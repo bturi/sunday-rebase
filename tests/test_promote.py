@@ -31,6 +31,14 @@ class AddedIssue(unittest.TestCase):
         self.assertIsNone(promote.added_issue([("M", "check.py")]))
 
 
+class TouchesIssues(unittest.TestCase):
+    def test_true_for_any_change_under_issues(self):
+        self.assertTrue(promote.touches_issues([("M", "check.py"), ("M", "issues/2026-09-09.html")]))
+
+    def test_false_when_nothing_under_issues_changed(self):
+        self.assertFalse(promote.touches_issues([("M", "check.py"), ("A", ".github/workflows/promote.yml")]))
+
+
 class PromotionErrors(unittest.TestCase):
     def test_passes_exactly_one_new_issue(self):
         self.assertEqual(promote.promotion_errors([("A", "issues/2026-09-13.html")]), [])
@@ -78,9 +86,19 @@ class Main(unittest.TestCase):
         self.assertEqual((code, out, err), (0, "issues/2026-09-13.html\n", ""))
 
     def test_reports_errors_on_stderr_so_a_captured_stdout_stays_empty(self):
-        code, out, err = self.run_main([("M", "check.py")])
+        code, out, err = self.run_main([("A", "issues/2026-09-13.html"), ("M", "check.py")])
         self.assertEqual((code, out), (1, ""))
         self.assertIn("FAIL: unexpected change: M check.py", err)
+
+    def test_push_that_does_not_touch_issues_is_nothing_to_promote(self):
+        code, out, err = self.run_main([("M", "check.py"), ("A", ".github/workflows/promote.yml")])
+        self.assertEqual((code, out), (0, ""))
+        self.assertIn("nothing to promote", err)
+
+    def test_push_that_touches_issues_without_adding_one_fails(self):
+        code, out, err = self.run_main([("M", "issues/2026-09-09.html")])
+        self.assertEqual((code, out), (1, ""))
+        self.assertIn("FAIL: expected exactly one new issue, found 0", err)
 
 
 if __name__ == "__main__":
