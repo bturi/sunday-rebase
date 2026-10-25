@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F6F4EE">
+<title>The Sunday Rebase · Issue 9 · 25 October 2026</title>
+<link rel="icon" href="../favicon.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F4EE; --bg-2:#EFECE4; --bg-3:#E5E1D6;
+    --fg:#1C1D2A; --fg-dim:#3E4159; --muted:#6B7088; --line:#DAD6CB; --line-2:#C8C3B4;
+    --blue:#2B5BD7; --purple:#6E3FD0; --green:#3F7A12; --red:#C42F52; --orange:#C05F16; --yellow:#8A6410; --cyan:#1274A0; --pink:#B23F86;
+    --display:"Inter Tight",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --sans:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --s1:8px; --s2:16px; --s3:24px; --s4:40px; --s5:64px; --s6:96px;
+  }
+  [data-theme="dark"]{
+    --bg:#1A1B26; --bg-2:#1F2233; --bg-3:#262A3E;
+    --fg:#D4DBF3; --fg-dim:#AEB7DA; --muted:#8B94B3; --line:#2B3048; --line-2:#3A4062;
+    --blue:#7AA2F7; --purple:#BB9AF7; --green:#9ECE6A; --red:#F7768E; --orange:#FF9E64; --yellow:#E0AF68; --cyan:#7DCFFF; --pink:#F0A6D4;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:64px}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+  body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.7 var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  p{text-wrap:pretty}
+  a{color:var(--blue);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;text-decoration-color:color-mix(in srgb,var(--blue) 45%,transparent)}
+  a:hover{color:var(--cyan);text-decoration-color:currentColor}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:2px}
+  code{font:0.88em var(--mono);background:var(--bg-3);padding:1px 5px;border-radius:3px}
+  h1,h2,h3,h4{margin:0;font-family:var(--display);font-weight:600;letter-spacing:-0.02em;text-wrap:balance}
+  q{quotes:"\201C" "\201D";color:var(--yellow)}
+  .wrap{max-width:680px;margin:0 auto;padding:0 20px}
+
+  /* mosaic bands: side-by-side sections on wide screens */
+  .band{max-width:1200px;margin:0 auto;padding:0 24px}
+  .band>*{min-width:0}
+  .band+.band{border-top:1px solid var(--line-2);margin-top:var(--s4);padding-top:var(--s4)}
+  .band .page{margin-top:0}
+  @media (max-width:1099px){.band>*+*{margin-top:var(--s5)}}
+  @media (min-width:1100px){
+    .band{display:grid;column-gap:0}
+    .band-front{grid-template-columns:minmax(0,1.6fr) minmax(0,.9fr)}
+    .band-3{grid-template-columns:repeat(3,1fr)}
+    .band-2{grid-template-columns:1.15fr 1fr}
+    .band>*+*{border-left:1px solid var(--line);padding-left:36px}
+    .band>*:not(:last-child){padding-right:36px}
+    .band .page{margin-top:0}
+    .band .page .pagehead{margin-bottom:var(--s3)}
+    .band article.main h3{font-size:21px;line-height:1.25}
+    .band .standfirst{font-size:15.5px;line-height:1.55}
+    .band ul.related li{font-size:14px}
+    .band article.river{margin-top:var(--s3);padding-top:var(--s2)}
+    .band article.river h4{font-size:16.5px}
+    .band article.river p{font-size:14.5px}
+    .band .also{margin-top:var(--s3);padding-top:var(--s2);font-size:14px}
+    .band .columns{grid-template-columns:1fr;gap:var(--s3)}
+    .band .column:first-child{grid-column:auto;padding-bottom:var(--s3)}
+    .band .column:first-child h3{font-size:19px}
+    .band .column:first-child p{font-size:15.5px}
+    .band .episode{grid-template-columns:1fr;gap:var(--s1)}
+    .band .episode h3{font-size:18px}
+    .band .finally h3{font-size:18px}
+    .band .finally p{font-size:15px}
+    .band table.data{font-size:12px}
+    .band table.data td.bar{width:26%}
+  }
+
+  /* front-right stack */
+  .band-front{margin-top:var(--s5)}
+  .front-right .secondaries{display:block;margin-top:0;padding-top:0;border-top:0}
+  .front-right .story{margin-bottom:var(--s3)}
+  .front-right .numbers{grid-template-columns:1fr 1fr;gap:var(--s2);margin-top:var(--s2);padding:var(--s2) 0 0;border-bottom:0}
+  .front-right .numbers .n{font-size:20px}
+  @media (min-width:1100px){
+    .front-right .story{border-top:2px solid var(--c);padding-top:var(--s2)}
+    .band-front .lead h1{font-size:clamp(32px,3.6vw,42px)}
+  }
+
+  .c-models{--c:var(--purple)} .c-tools{--c:var(--blue)} .c-security{--c:var(--red)} .c-money{--c:var(--green)}
+  .c-opinion{--c:var(--yellow)} .c-audio{--c:var(--orange)} .c-back{--c:var(--cyan)} .c-wire{--c:var(--pink)} .c-finally{--c:var(--pink)} .c-neutral{--c:var(--fg-dim)}
+
+  /* progress + ticker + masthead */
+  #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:20;background:linear-gradient(90deg,var(--blue),var(--purple),var(--cyan))}
+  .newer{text-align:center;font:12.5px/1.6 var(--mono);color:var(--fg-dim);padding:10px 20px;background:var(--bg-2);border-bottom:1px solid var(--line)}
+  .newer[hidden]{display:none}
+  .newer a{font-weight:600}
+  .ticker{text-align:center;font:12.5px/1.6 var(--mono);color:var(--muted);padding:14px 20px;border-bottom:1px solid var(--line)}
+  .ticker b{color:var(--orange);font-weight:600}
+  .masthead{text-align:center;padding:var(--s5) 20px var(--s4)}
+  .masthead .the{font:600 12px/1 var(--mono);letter-spacing:.55em;color:var(--muted);margin:0 0 12px .55em}
+  .logo{display:inline-block;margin:0;font:11px/1.05 var(--mono);white-space:pre;text-align:left;color:var(--blue);background:linear-gradient(90deg,var(--blue) 0%,var(--purple) 55%,var(--cyan) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .logo-text{display:none;margin:0;font:800 44px/1 var(--display);letter-spacing:-0.04em;color:var(--blue);background:linear-gradient(90deg,var(--blue),var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .tagline{margin:20px 0 0;font:15px/1.5 var(--sans);color:var(--fg-dim)}
+  .dateline{margin:6px 0 0;font:12.5px/1.6 var(--mono);color:var(--muted);text-wrap:balance}
+
+  /* issue picker: the issue number in the dateline opens a list of every issue */
+  .issue-menu{position:relative;display:inline-block}
+  .issue-pick{background:none;border:0;padding:0 0 1px;margin:0;font:inherit;color:inherit;cursor:pointer;border-bottom:1px dotted currentColor}
+  .issue-pick::after{content:"▾";margin-left:5px;font-size:11px;opacity:.75}
+  .issue-pick:hover,.issue-pick[aria-expanded="true"]{color:var(--fg)}
+  .issue-list{position:absolute;left:50%;top:calc(100% + 10px);transform:translateX(-50%);z-index:30;width:max-content;min-width:260px;max-width:min(360px,calc(100vw - 24px));padding:6px;text-align:left;background:var(--bg);border:1px solid var(--line-2);border-radius:8px;box-shadow:0 14px 36px -14px rgba(0,0,0,.35),0 2px 8px rgba(0,0,0,.06);font:12.5px/1.5 var(--mono)}
+  .issue-list[hidden]{display:none}
+  .issue-list::before{content:"";position:absolute;left:calc(50% - var(--shift,0px));top:-6px;width:10px;height:10px;margin-left:-5px;background:var(--bg);border-left:1px solid var(--line-2);border-top:1px solid var(--line-2);transform:rotate(45deg)}
+  .issue-list ul{list-style:none;margin:0;padding:0;max-height:min(50vh,380px);overflow-y:auto}
+  .issue-list li a{display:block;padding:8px 10px;border-radius:5px;color:var(--fg-dim);text-decoration:none}
+  .issue-list li a:hover,.issue-list li a:focus-visible{background:var(--bg-2);color:var(--fg);outline:0}
+  .issue-list li a b{font-weight:600;color:var(--fg)}
+  .issue-list li a span{margin-left:8px;color:var(--muted)}
+  .issue-list li a em{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font:13px/1.4 var(--sans);font-style:normal;color:var(--muted)}
+  .issue-list a[aria-current] span::after{content:" · this one"}
+  .issue-list .all{display:block;margin:6px -6px -6px;padding:8px 16px;border-top:1px solid var(--line);border-radius:0 0 8px 8px;color:var(--muted);text-decoration:none}
+  .issue-list .all:hover{background:var(--bg-2);color:var(--fg)}
+  .rule{height:1px;background:linear-gradient(90deg,transparent,var(--blue),var(--purple),var(--cyan),transparent);opacity:.7}
+
+  /* nav */
+  nav.links{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  /* the list centres itself while it fits and scrolls from the left edge once it does not, so no item is ever clipped */
+  nav.links ul{list-style:none;margin:0 auto;padding:10px 0 10px 20px;width:max-content;max-width:100%;display:flex;flex-wrap:nowrap;overflow-x:auto;font:12.5px/1.6 var(--mono);scrollbar-width:none}
+  nav.links ul::after{content:"";flex:0 0 20px}
+  nav.links ul::-webkit-scrollbar{display:none}
+  nav.links li{white-space:nowrap}
+  nav.links li+li::before{content:"·";color:var(--line-2);margin:0 9px}
+  nav.links a{text-decoration:none;color:var(--fg-dim)}
+  nav.links a:hover{color:var(--c,var(--blue))}
+  nav.links button{background:none;border:0;color:var(--muted);font:12.5px/1.6 var(--mono);cursor:pointer;padding:0}
+  nav.links button:hover{color:var(--blue)}
+
+  /* shared editorial pieces */
+  .kicker{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.16em;margin:0 0 var(--s2);color:var(--c)}
+  .standfirst{margin:0 0 var(--s2);font:19px/1.55 var(--sans);font-weight:400;color:var(--fg-dim)}
+  .byline{font:12.5px/1.6 var(--mono);color:var(--muted);margin:0 0 var(--s2)}
+  .body p{margin:0 0 var(--s2)}
+  .sources{font:12.5px/1.8 var(--mono);color:var(--muted);margin-top:var(--s1)}
+  .sources a{color:var(--muted);text-decoration-color:color-mix(in srgb,var(--muted) 40%,transparent)}
+  .sources a:hover{color:var(--fg)}
+
+  /* NYT-style related links under a lead package */
+  ul.related{list-style:none;margin:var(--s2) 0 0;padding:0}
+  ul.related li{position:relative;padding:5px 0 5px 20px;font-size:15px;line-height:1.55}
+  ul.related li::before{content:"→";position:absolute;left:0;top:5px;font-family:var(--mono);color:var(--muted)}
+  ul.related a{color:var(--fg);font-weight:500;text-decoration-color:color-mix(in srgb,var(--fg) 25%,transparent)}
+  ul.related a:hover{color:var(--blue)}
+  ul.related .rs{font:12px var(--mono);color:var(--muted);margin-left:8px}
+
+  /* front */
+  .front{padding:var(--s5) 0 0}
+  .lead h1{font-size:clamp(32px,5.4vw,46px);line-height:1.1;margin-bottom:var(--s3);letter-spacing:-0.03em}
+  .lead .standfirst{font-size:20px}
+  .secondaries{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s3);margin-top:var(--s5);padding-top:var(--s3);border-top:1px solid var(--line)}
+  .story{position:relative;padding-top:var(--s2);border-top:2px solid var(--c)}
+  .story h3{font-size:17px;line-height:1.3;margin-bottom:var(--s1)}
+  .story h3 a{color:inherit;text-decoration:none}
+  .story h3 a::after{content:"";position:absolute;inset:0}
+  .story:hover h3{color:var(--c)}
+  .story p{margin:0 0 var(--s1);font-size:14.5px;line-height:1.55;color:var(--fg-dim)}
+  .story .src{font:12px/1.6 var(--mono);color:var(--muted)}
+  .numbers{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s3);margin-top:var(--s5);padding:var(--s3) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .numbers .n{font:600 26px/1.1 var(--display);letter-spacing:-0.03em;font-variant-numeric:tabular-nums;padding-bottom:6px;border-bottom:2px solid var(--c);display:inline-block}
+  .numbers .l{margin-top:8px;font:12px/1.45 var(--sans);color:var(--muted)}
+
+  /* topic pages */
+  .page{margin-top:var(--s6)}
+  .pagehead{display:flex;align-items:center;gap:12px;font:600 12.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.16em;margin-bottom:var(--s4)}
+  .pagehead .hash{color:var(--muted);font-weight:500}
+  .pagehead .name{color:var(--c)}
+  .pagehead::after{content:"";flex:1;border-top:1px solid var(--line);order:1}
+  .pagehead .more{order:2;font:500 12px/1 var(--mono);color:var(--muted);letter-spacing:.04em;text-transform:none;text-decoration:none}
+  .pagehead .more:hover{color:var(--c)}
+  article.main h3{font-size:28px;line-height:1.18;margin-bottom:var(--s2)}
+  article.river{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--line)}
+  article.river h4{font-size:19px;line-height:1.3;margin-bottom:var(--s1)}
+  article.river h4 a{color:inherit;text-decoration:none}
+  article.river h4 a:hover{color:var(--blue)}
+  article.river p{margin:0 0 var(--s1);font-size:15.5px;color:var(--fg-dim)}
+  article.river .meta{font:12.5px/1.6 var(--mono);color:var(--muted);margin:0}
+  article.river .meta a{color:var(--muted);text-decoration-color:color-mix(in srgb,var(--muted) 40%,transparent)}
+  article.river .meta a:hover{color:var(--fg)}
+  .also{margin-top:var(--s4);padding-top:var(--s3);border-top:1px solid var(--line);font-size:14.5px;line-height:1.7;color:var(--fg-dim)}
+  .also b{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.16em;color:var(--muted);margin-right:6px}
+  .figures{margin:var(--s3) 0 var(--s1);border:1px solid var(--line);background:var(--bg-2);padding:var(--s2) var(--s3)}
+  .figures h4{font:600 13px/1.4 var(--sans);margin-bottom:2px}
+  .figures .cap{margin:0 0 var(--s2);font:12.5px/1.5 var(--sans);color:var(--muted)}
+  table.data{width:100%;border-collapse:collapse;font:13px/1.4 var(--mono);font-variant-numeric:tabular-nums}
+  table.data th{text-align:left;font-weight:500;color:var(--muted);padding:4px 8px 8px 0;border-bottom:1px solid var(--line-2)}
+  table.data td{padding:6px 8px 6px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+  table.data td.dim{color:var(--muted)}
+  table.data td.num{text-align:right;white-space:nowrap;width:56px;font-weight:600}
+  table.data td.bar{width:36%}
+  table.data .b{display:block;height:6px;width:var(--w);background:var(--b1);border-radius:1px}
+  table.data .b.alt{background:var(--b2)}
+  .t-models{--b1:var(--blue);--b2:var(--purple)}
+  .t-money{--b1:var(--green);--b2:var(--orange)}
+  .legend{margin:var(--s2) 0 0;font:12px/1.6 var(--mono);color:var(--muted)}
+  .legend i{display:inline-block;width:9px;height:6px;background:var(--b1);margin-right:6px;vertical-align:1px;border-radius:1px}
+  .legend i.alt{background:var(--b2)}
+
+  /* opinion */
+  .columns{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4) var(--s4)}
+  .column .who{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);margin:0 0 var(--s1)}
+  .column .who b{color:var(--fg);font-weight:600}
+  .column h3{font-size:18px;line-height:1.3;margin-bottom:var(--s1)}
+  .column p{margin:0 0 var(--s1);font-size:15.5px;color:var(--fg-dim)}
+  .column:first-child{grid-column:1/-1;padding-bottom:var(--s4);border-bottom:1px solid var(--line)}
+  .column:first-child h3{font-size:24px;line-height:1.2}
+  .column:first-child p{font-size:17px}
+
+  /* audio */
+  .episode{display:grid;grid-template-columns:120px 1fr;gap:var(--s3)}
+  .episode .len{font:600 30px/1 var(--display);letter-spacing:-0.03em;color:var(--fg)}
+  .episode .len small{display:block;font:12px/1.6 var(--mono);color:var(--muted);margin-top:8px;font-weight:400;letter-spacing:0}
+  .episode h3{font-size:22px;line-height:1.25;margin-bottom:var(--s2)}
+  .episode p{color:var(--fg-dim)}
+
+  /* and finally */
+  .finally p{font-size:16px;color:var(--fg-dim);margin:0 0 var(--s1)}
+  .finally h3{font-size:22px;line-height:1.25;margin-bottom:var(--s2)}
+
+  /* wire */
+  .wire-body[hidden]{display:none}
+  .filters{display:flex;flex-wrap:wrap;gap:4px 14px;font:12.5px/1.6 var(--mono);margin:0 0 var(--s1)}
+  .filters button{background:none;border:0;padding:0;color:var(--muted);font:inherit;cursor:pointer}
+  .filters button::before{content:"["}
+  .filters button::after{content:"]"}
+  .filters button:hover{color:var(--fg)}
+  .filters button[aria-pressed="true"]{color:var(--fg);font-weight:600}
+  .wire ul{list-style:none;margin:0;padding:0}
+  .wire .day{font:600 11.5px/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--muted);padding:var(--s3) 0 var(--s1)}
+  .wire .row{display:grid;grid-template-columns:76px 1fr;gap:12px;padding:8px 0;border-top:1px solid var(--line);align-items:baseline}
+  .wire .row .t{font:600 11px/1.7 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--c)}
+  .wire .row a{color:var(--fg);text-decoration:none;font-size:15px}
+  .wire .row a:hover{color:var(--c)}
+  .wire .row .s{display:block;font:12px/1.6 var(--mono);color:var(--muted)}
+  .wire .row[hidden],.wire .day[hidden]{display:none}
+
+  .kb{outline:2px solid var(--blue);outline-offset:6px;border-radius:2px}
+
+  /* colophon */
+  .colophon{margin-top:var(--s6);padding:var(--s4) 0 var(--s6);border-top:1px solid var(--line);font-size:15px;color:var(--fg-dim)}
+  .colophon p{margin:0 0 var(--s2)}
+  .colophon .keys{font:12.5px/1.8 var(--mono);color:var(--muted)}
+  .colophon .keys kbd{font:inherit;color:var(--fg);background:var(--bg-3);padding:1px 6px;border-radius:3px}
+  .colophon .end{margin-top:var(--s3);text-align:center;font:12.5px/1.6 var(--mono);color:var(--muted)}
+
+  @media (max-width:720px){
+    body{font-size:16px;line-height:1.65}
+    .logo{display:none}
+    .logo-text{display:inline-block}
+    .masthead{padding:var(--s4) 20px var(--s3)}
+    nav.links::after{content:"";position:absolute;top:0;right:0;bottom:0;width:36px;background:linear-gradient(90deg,transparent,var(--bg));pointer-events:none}
+    .page{margin-top:var(--s5)}
+    .secondaries{grid-template-columns:1fr;gap:var(--s2)}
+    .numbers{grid-template-columns:1fr 1fr;gap:var(--s2)}
+    .columns{grid-template-columns:1fr}
+    .episode{grid-template-columns:1fr;gap:var(--s1)}
+    article.main h3{font-size:24px}
+    table.data td.bar{width:28%}
+    .wire .row{grid-template-columns:68px 1fr}
+  }
+  @media print{nav.links,.filters,#progress{display:none}.logo{-webkit-text-fill-color:#000;background:none}.wire-body[hidden]{display:block}}
+</style>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<div class="newer" id="newer" hidden></div>
+
+<div class="ticker"><b>top story →</b> <a href="#lead">PHP patches two critical remote code execution flaws after a disclosure leak, Moonshot ships Kimi K3.1 Pro and Anthropic donates Agent Skills</a></div>
+
+<header class="masthead">
+  <p class="the">THE SUNDAY</p>
+<pre class="logo" aria-label="REBASE">██████╗ ███████╗██████╗  █████╗ ███████╗███████╗
+██╔══██╗██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝
+██████╔╝█████╗  ██████╔╝███████║███████╗█████╗  
+██╔══██╗██╔══╝  ██╔══██╗██╔══██║╚════██║██╔══╝  
+██║  ██║███████╗██████╔╝██║  ██║███████║███████╗
+╚═╝  ╚═╝╚══════╝╚═════╝ ╚═╝  ╚═╝╚══════╝╚══════╝
+                                                </pre>
+  <p class="logo-text" aria-hidden="true">REBASE</p>
+  <p class="tagline">What the people building AI said this week</p>
+  <div class="dateline">Sunday 25 October 2026 · <span class="issue-menu"><button id="issuePick" class="issue-pick" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="issueMenu">Issue 9</button><div class="issue-list" id="issueMenu" hidden><ul id="issueList"></ul><a class="all" href="../archive.html">all issues →</a></div></span> · covers Sun 18 Oct to Sat 24 Oct · ≈ 10 min</div>
+</header>
+<div class="rule" aria-hidden="true"></div>
+
+<nav class="links" aria-label="Pages">
+  <ul>
+    <li><a href="#front">front</a></li>
+    <li class="c-models"><a href="#models">models</a></li>
+    <li class="c-tools"><a href="#tools">tools</a></li>
+    <li class="c-security"><a href="#security">security</a></li>
+    <li class="c-money"><a href="#money">money</a></li>
+    <li class="c-opinion"><a href="#opinion">opinion</a></li>
+    <li class="c-audio"><a href="#audio">audio</a></li>
+    <li class="c-back"><a href="#back">back pages</a></li>
+    <li class="c-wire"><a href="#wire">wire</a></li>
+    <li><button id="theme" type="button">[dark]</button></li>
+  </ul>
+</nav>
+
+<div class="band band-front" id="front">
+    <article class="lead c-security" id="lead" data-story>
+      <p class="kicker">Lead story · Security</p>
+      <h1>PHP patches two critical remote code execution flaws after the disclosure leaks</h1>
+      <p class="standfirst">The PHP project released fixes on Wednesday for two remote code execution flaws that affect the whole 8.x line, moving the release up a day after CVE details began circulating on Tuesday. Willison says exploits were circulating by the night before the patch, after a security firm mistakenly published a working proof of concept video. Latent Space says OpenAI's Patch the Planet program was one of two parties to find the bugs, which it calls PHP2Shell. Zvi's AI #191 adds a GitLab flaw rated CVSS 10.0 and a Railway breach from the same days.</p>
+      <p class="byline">Simon Willison · Latent Space · Zvi · Tue 20 to Thu 22</p>
+      <ul class="related">
+        <li><a href="https://simonwillison.net/2026/Oct/21/php-security-release/">Willison: today's PHP security release</a><span class="rs">simonwillison.net</span></li>
+        <li><a href="https://latent.space/p/ainews-openais-patch-the-planet-program/">Latent Space: OpenAI's Patch the Planet and PHP2Shell</a><span class="rs">latent.space</span></li>
+        <li><a href="https://latent.space/p/ainews-black-october/">Latent Space: Black October</a><span class="rs">latent.space</span></li>
+        <li><a href="https://thezvi.substack.com/p/ai-191-the-hackening-begins">Zvi: AI #191, The Hackening Begins</a><span class="rs">thezvi.substack.com</span></li>
+      </ul>
+    </article>
+
+    <aside class="front-right">
+      <article class="story c-models">
+        <p class="kicker">Models</p>
+        <h3><a href="#models">Moonshot's Kimi K3.1 Pro scores 55 on the Intelligence Index at $2 and $10 per million tokens</a></h3>
+        <p>Moonshot promises full open weights by 4 November, and Claude Opus 5.5 still leads at 58.</p>
+        <p class="src">Simon Willison · Latent Space · Fri 23</p>
+      </article>
+      <article class="story c-tools">
+        <p class="kicker">Tools</p>
+        <h3><a href="#tools">Anthropic donates Agent Skills to the Agentic AI Foundation</a></h3>
+        <p>Anthropic says the standard has 1 million published skills and nearly 280 million installs.</p>
+        <p class="src">Anthropic · Simon Willison · Thu 22</p>
+      </article>
+      <article class="story c-money">
+        <p class="kicker">Money</p>
+        <h3><a href="#money">Anthropic plans to commit 5% of its shares to a new public benefit fund</a></h3>
+        <p>The board may add 2% for each 50% rise in company value above a baseline.</p>
+        <p class="src">Anthropic · Sun 18</p>
+      </article>
+      <div class="numbers" aria-label="Figures of the week">
+        <div class="c-security"><div class="n">9.2</div><div class="l">CVSS score of each of the two PHP flaws; a leaked listing wrongly showed 10.0</div></div>
+        <div class="c-models"><div class="n">55</div><div class="l">Intelligence Index score for Kimi K3.1 Pro; Claude Opus 5.5 leads at 58</div></div>
+        <div class="c-tools"><div class="n">280M</div><div class="l">Agent Skills installs, nearly, from 1 million published skills, per Anthropic</div></div>
+        <div class="c-money"><div class="n">5%</div><div class="l">of Anthropic's shares it plans to commit to the Anthropic Public Benefit Fund</div></div>
+      </div>
+    </aside>
+</div>
+
+<div class="band band-3">
+  <!-- MODELS -->
+  <section class="page c-models" id="models">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Models</span><span class="n">4 stories</span></h2>
+    <article class="main" data-story>
+      <h3>Moonshot releases Kimi K3.1 Pro at $2 and $10 per million tokens, with open weights promised by 4 November</h3>
+      <p class="standfirst">Moonshot made Kimi K3.1 Pro available through its API this week and says full weights will follow by 4 November. Willison lists $2 per million input tokens and $10 per million output, with a Highspeed version that runs 2 to 3 times faster at twice the price. Latent Space gives 2.8T total and 104B active parameters with a 1M token context. Artificial Analysis lists it at 55, behind Claude Opus 5.5 at 58.</p>
+      <p class="byline">Simon Willison · Latent Space · Artificial Analysis · Fri 23 to Sat 24</p>
+      <ul class="related">
+        <li><a href="https://simonwillison.net/2026/Oct/23/kimi-k31-pro/">Willison: introducing Kimi K3.1 Pro</a><span class="rs">simonwillison.net</span></li>
+        <li><a href="https://latent.space/p/ainews-kimi-31/">Latent Space: Kimi 3.1 Pro digest</a><span class="rs">latent.space</span></li>
+      </ul>
+      <div class="figures">
+        <h4>Intelligence Index, selected models</h4>
+        <p class="cap">Effort setting as listed by Artificial Analysis. Bars scaled to 65. Kimi K3.1 Pro is a new row.</p>
+        <table class="data t-models">
+          <tr><th>Model</th><th>Weights</th><th>Index</th><th></th></tr>
+          <tr><td>Claude Opus 5.5 (max)</td><td class="dim">closed</td><td class="num">58</td><td class="bar"><span class="b" style="--w:89.2%"></span></td></tr>
+          <tr><td>Claude Sonnet 5.5 (max)</td><td class="dim">closed</td><td class="num">56</td><td class="bar"><span class="b" style="--w:86.2%"></span></td></tr>
+          <tr><td>Muse Wonder Full (max)</td><td class="dim">closed</td><td class="num">56</td><td class="bar"><span class="b" style="--w:86.2%"></span></td></tr>
+          <tr><td>Kimi K3.1 Pro</td><td class="dim">promised</td><td class="num">55</td><td class="bar"><span class="b alt" style="--w:84.6%"></span></td></tr>
+          <tr><td>Claude Fable 5.1 (max)</td><td class="dim">closed</td><td class="num">53</td><td class="bar"><span class="b" style="--w:81.5%"></span></td></tr>
+          <tr><td>GPT-6 Astra (max)</td><td class="dim">closed</td><td class="num">53</td><td class="bar"><span class="b" style="--w:81.5%"></span></td></tr>
+          <tr><td>Gemini 4 Argon (high)</td><td class="dim">closed</td><td class="num">53</td><td class="bar"><span class="b" style="--w:81.5%"></span></td></tr>
+          <tr><td>Muse Wonder (max)</td><td class="dim">closed</td><td class="num">52</td><td class="bar"><span class="b" style="--w:80%"></span></td></tr>
+          <tr><td>Muse Spark Open</td><td class="dim">open</td><td class="num">39</td><td class="bar"><span class="b alt" style="--w:60%"></span></td></tr>
+        </table>
+        <p class="legend"><i></i>closed weights &nbsp;<i class="alt"></i>open or promised open weights &nbsp;· Artificial Analysis leaderboard, checked Sun 25 Oct · Muse Spark Open's 39 is as <a href="https://thezvi.substack.com/p/ai-191-the-hackening-begins">Zvi</a> reports it</p>
+      </div>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://www.interconnects.ai/p/latest-open-artifacts-25-deepseek">DeepSeek releases V4.1 Flash 1017, a 552B model with 16B active parameters under the MIT license</a></h4>
+      <p>Interconnects says it accepts image inputs and does well on the agentic coding benchmark DeepSWE at a low price. The same roundup picks Reflection's Beam as the strongest permissively licensed American open model.</p>
+      <p class="meta">Interconnects · Tue 20</p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://jack-clark.net/2026/10/19/import-ai-477-in-which-i-tell-the-imf-the-singularity-has-begun/">Jack Clark tells the IMF the singularity has begun</a></h4>
+      <p>His Import AI 477 is a transcript of a Bangkok speech that cites Humanity's Last Exam at 67.7% for Claude Opus 5.5, up from 8% in January 2025. He also says Anthropic's researchers produce almost 10 times as much code as in the company's first four years.</p>
+      <p class="meta">Jack Clark · Mon 19</p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://latent.space/p/ai-is-getting-good-at-math/">Ankit Maloo on why models solve some hard math problems</a></h4>
+      <p>He argues that models search many branches cheaply and use automated verifiers to prune dead ends, where humans go deep on a few ideas. Latent Space's essay cites a reported Navier-Stokes proof that took 10,000 agents, about 300B tokens and 88 hours.</p>
+      <p class="meta">Latent Space · Fri 23</p>
+    </article>
+
+    <p class="also"><b>Also</b> The Interconnects roundup also lists <a href="https://www.interconnects.ai/p/latest-open-artifacts-25-deepseek">Xiaomi's MiMo-V2.6-Pro-RL and NVIDIA's Nemotron-3.5-Super-VL-120B-A12B</a> · IBM's <a href="https://huggingface.co/blog/ibm-granite/granite-speech-5">Granite Speech 5.0</a> is on Hugging Face · Zvi's <a href="https://thezvi.substack.com/p/ai-191-the-hackening-begins">AI #191</a> lists Opus 5.5 fast mode at $8 and $40 per million tokens.</p>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="page c-tools" id="tools">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Agents &amp; tooling</span><span class="n">4 stories</span></h2>
+    <article class="main" data-story>
+      <h3>Anthropic donates the Agent Skills standard to the Agentic AI Foundation</h3>
+      <p class="standfirst">Anthropic is handing over the Agent Skills name, logo, GitHub organization and agentskills.io domain to the Agentic AI Foundation, which sits under the Linux Foundation and also hosts MCP. It says more than 70 agent platforms have integrated the standard, with 1 million skills published and nearly 280 million installed. David Soria Parra and Mahesh Murag are lead maintainers, and versioned releases, a proposal process and security guidance for skill authors are planned. Willison notes he predicted the move in December.</p>
+      <p class="byline">Anthropic · Simon Willison · Thu 22</p>
+      <ul class="related">
+        <li><a href="https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation">Anthropic: donating Agent Skills to the Agentic AI Foundation</a><span class="rs">anthropic.com</span></li>
+        <li><a href="https://simonwillison.net/2026/Oct/22/donating-agent-skills/">Willison: donating Agent Skills</a><span class="rs">simonwillison.net</span></li>
+      </ul>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://latent.space/p/claude-mods/">Dan McAteer describes Claude Mods, functions that change how Claude Code behaves and looks</a></h4>
+      <p>They run inside Claude Code and respond to events such as prompts and tool calls. Mods are not sandboxed and run with the user's permissions, and a supervisor mod he built fired on 99 of 111 turns.</p>
+      <p class="meta">Latent Space · Wed 21</p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://hamel.dev/blog/posts/decision-model-evals/">Hamel Husain compares decision models as cheaper stand-ins for LLM judges</a></h4>
+      <p>He covers Jev, Perplexity Decider, Liquid d1, Cloudflare Clef Flash and OpenAI Decisions for pass/fail evals. He says to tune each model's threshold instead of keeping the default of 0.50.</p>
+      <p class="meta">Hamel Husain · Tue 20</p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://www.dbreunig.com/2026/10/24/the-state-of-context-engineering.html">Drew Breunig says context engineering is shifting toward deterministic harness code</a></h4>
+      <p>His write-up of an AGNTCon talk says the core fixes for context failures have stayed largely the same. The central task, he argues, is deciding which parts to make deterministic and which to leave to the model.</p>
+      <p class="meta">Drew Breunig · Sat 24</p>
+    </article>
+
+    <p class="also"><b>Also</b> Willison's <a href="https://simonwillison.net/2026/Oct/20/battledrones/">Battle Drones</a> is a browser RTS built through twelve major iterations with coding agents, with audio-based multiplayer · OpenAI's <a href="https://openai.com/index/decisions-api">Decisions API</a> is a low-cost API for fast, focused decisions · Hugging Face covers <a href="https://huggingface.co/blog/mps-pytorch-2-15">MPS in PyTorch 2.15</a> and <a href="https://huggingface.co/blog/anylanguagemodel-1-0">AnyLanguageModel 1.0</a> for local models on Apple platforms.</p>
+  </section>
+
+  <!-- SECURITY -->
+  <section class="page c-security" id="security">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Security</span><span class="n">4 stories</span></h2>
+    <article class="main" data-story>
+      <h3>Eight eMudhra intermediate CA keys are compromised, and uv, pip and certifi ship new certificate lists</h3>
+      <p class="standfirst">Willison reports that the private keys of eight eMudhra intermediate CA certificates have been compromised. The intermediates chain to roots trusted by the Mozilla, Microsoft, Apple and Chrome root programs, so anything that bundles a trusted certificate list needs updating. Releases so far include uv 0.13.4, pip 26.2.2 and certifi 2026.10.19, and Linux distributions need to update their ca-certificates packages.</p>
+      <p class="byline">Simon Willison · Tue 20</p>
+      <ul class="related">
+        <li><a href="https://simonwillison.net/2026/Oct/20/emudhra-certificates/">Willison: eMudhra intermediate CA compromise</a><span class="rs">simonwillison.net</span></li>
+      </ul>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://thezvi.substack.com/p/the-hackening">Zvi warns of a wave of AI-driven attacks over the next 6 to 12 months</a></h4>
+      <p>He cites a report of AI agents compromising more than 100 companies after about 1,200 attempts, at roughly $5,000 in tokens and about 23 hours per successful intrusion. He also notes that 46.1% of the top 7.2M PHP sites that show a version run an end-of-life branch.</p>
+      <p class="meta">Zvi · Fri 23</p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://thezvi.substack.com/p/ai-191-the-hackening-begins">Zvi reports an Anthropic Fellows paper on transcoder features that are neurons in disguise</a></h4>
+      <p>He ties it to a wider claim that individual neurons mostly carry single, labelable meanings, which he says lowers the estimated difficulty of interpretability work.</p>
+      <p class="meta">Zvi · Thu 22</p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://www.interconnects.ai/p/latest-open-artifacts-25-deepseek">DHS bars DeepSeek from federal civilian procurement, and China floats pre-approval for frontier model exports</a></h4>
+      <p>Interconnects says the Chinese proposal is not yet law and appears to give open-source technologies automatic approval. Its authors call the reaction to it overblown and the DHS order expected.</p>
+      <p class="meta">Interconnects · Tue 20</p>
+    </article>
+
+    <p class="also"><b>Also</b> OpenAI describes <a href="https://openai.com/index/securing-our-frontier-model-training-environment">stronger containment for frontier model training</a>, and says <a href="https://openai.com/index/cloudflare-cyber">Cloudflare uses its Daybreak</a> to investigate vulnerabilities and propose fixes · OpenAI's <a href="https://openai.com/index/coordinated-disclosure-of-critical-vulnerabilities">Patch the Planet post</a> frames the work as connecting researchers, maintainers and responders.</p>
+  </section>
+</div>
+
+<div class="band band-2">
+  <!-- MONEY -->
+  <section class="page c-money" id="money">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Money &amp; compute</span><span class="n">3 stories</span></h2>
+    <article class="main" data-story>
+      <h3>DeepSeek open sources DeepInfer and reports about 155 trillion tokens a day from one cluster</h3>
+      <p class="standfirst">Latent Space says the release covers the inference engine and API layer, built mainly on vLLM under Apache 2.0, and leaves out the KV-cache and load-balancing parts, so the production service cannot be fully rebuilt from it. DeepSeek's own unaudited figures include a 96% input-cache hit rate, which means much of those tokens are cached input, and $38 of revenue per accelerator hour at off-peak prices. The roughly 80% margin and 81 day payback are Latent Space's estimates. Interconnects calls DeepInfer one of the bigger open source AI artifacts of recent months.</p>
+      <p class="byline">Latent Space · Interconnects · Tue 20 to Wed 21</p>
+      <ul class="related">
+        <li><a href="https://latent.space/p/ainews-deepseek-deepinfer-open-source/">Latent Space: DeepSeek DeepInfer digest</a><span class="rs">latent.space</span></li>
+        <li><a href="https://www.interconnects.ai/p/latest-open-artifacts-25-deepseek">Interconnects: latest open artifacts #25</a><span class="rs">interconnects.ai</span></li>
+      </ul>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://www.anthropic.com/news/public-benefit-fund">Anthropic sets up a public benefit fund and plans to commit 5% of its shares</a></h4>
+      <p>The fund is an LLC, and the board may add 2% more for each 50% increase in company value above a baseline. Anthropic says none of its equity may go to lobbying or political giving.</p>
+      <p class="meta">Anthropic · Sun 18</p>
+    </article>
+
+    <article class="river" data-story>
+      <h4><a href="https://openai.com/index/openai-models-google-cloud">OpenAI models are coming to Google Cloud</a></h4>
+      <p>OpenAI's feed says the move brings its frontier models and Codex workflows to Google Cloud's Model Garden and Marketplace.</p>
+      <p class="meta">OpenAI · Wed 21</p>
+    </article>
+
+    <p class="also"><b>Also</b> Zvi's <a href="https://thezvi.substack.com/p/ai-191-the-hackening-begins">AI #191</a> reports DeepSeek raised $15 billion and that Anthropic is in talks on a $45 billion cloud deal with Nscale · OpenAI is <a href="https://openai.com/index/openai-to-acquire-orchestra-bio">acquiring Orchestra Bio</a> to bring AI operations to life sciences R&amp;D.</p>
+  </section>
+
+  <!-- OPINION -->
+  <section class="page c-opinion" id="opinion">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Opinion</span><span class="n">3 columns</span></h2>
+    <div class="columns">
+      <article class="column" data-story>
+        <p class="who"><b>Ethan Mollick</b> · Tue 20</p>
+        <h3>30 months on the exponential</h3>
+        <p>Marking his new book Co-Existence, Mollick counts 180 models that now beat GPT-4 at its release, 19 of which run on a smartphone. He says the length of task AI completes at 50% reliability grew from about four minutes in 2024 to 17 hours by April 2026.</p>
+        <p class="sources"><a href="https://www.oneusefulthing.org/p/30-months-on-the-exponential-in-charts">30 Months on the Exponential (in Charts)</a></p>
+      </article>
+      <article class="column" data-story>
+        <p class="who"><b>Jeremy Scheff</b> via Simon Willison · Mon 19</p>
+        <h3>My obituary for programming</h3>
+        <p>Scheff says programming paid well because programmers solved logic puzzles others could not, and coding agents take that role away. Willison adds that the loss is largest for developers who enjoyed solving the problems themselves.</p>
+        <p class="sources"><a href="https://simonwillison.net/2026/Oct/19/my-obituary-for-programming/">My obituary for programming</a></p>
+      </article>
+      <article class="column" data-story>
+        <p class="who"><b>Armin Ronacher</b> via Simon Willison · Thu 22</p>
+        <h3>The industry's old software debt comes due</h3>
+        <p>Ronacher says the software industry built a lot of poor software over the past three decades. He suggests the trouble now arriving with AI is a consequence of that.</p>
+        <p class="sources"><a href="https://simonwillison.net/2026/Oct/22/armin-ronacher/">Quoting Armin Ronacher</a></p>
+      </article>
+    </div>
+  </section>
+</div>
+
+<div class="band band-3">
+  <!-- AUDIO -->
+  <section class="page c-audio" id="audio">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Audio</span></h2>
+    <article class="river" data-story style="margin-top:0;padding-top:0;border-top:0">
+      <h4><a href="https://www.dwarkesh.com/p/intel-tour">What will computer chips look like in 2045?</a></h4>
+      <p>Dwarkesh Patel tours Intel's most advanced fab and talks with five Intel leaders, including CTO Pushkar Ranade. Ranade estimates Intel could roughly double its leading-edge wafer output with today's tools, while AI compute has grown about 3x a year.</p>
+      <p class="meta">Dwarkesh Patel · about 76 min, transcript included · Thu 22</p>
+    </article>
+  </section>
+
+  <!-- BACK PAGES -->
+  <section class="page c-back" id="back">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Back pages</span><span class="n">worth re-reading</span></h2>
+    <article class="river" data-story style="margin-top:0;padding-top:0;border-top:0">
+      <h4><a href="https://latent.space/p/modal-d/">Why AI compute comes in rectangles: Erik Bernhardsson of Modal</a></h4>
+      <p>He argues that fixed GPU contracts do not fit demand that grows, spikes and falls, so Modal pools demand across thousands of customers and rents from about 25 clouds. Latent Space notes that locking in capacity at today's prices risks losses if GPU prices fall.</p>
+      <p class="meta">latent.space · Thu 22</p>
+    </article>
+    <article class="river" data-story>
+      <h4><a href="https://magazine.sebastianraschka.com/p/building-reasoning-models">Building reasoning models from the ground up: a full video course</a></h4>
+      <p>Sebastian Raschka's eight coding videos run about 11 hours. They implement evaluation, inference-time scaling, reinforcement learning and distillation in PyTorch, starting from a pre-trained Qwen3 model.</p>
+      <p class="meta">magazine.sebastianraschka.com · Sat 24</p>
+    </article>
+  </section>
+
+  <!-- AND FINALLY -->
+  <section class="page finally c-finally" id="finally">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">And finally</span></h2>
+    <article data-story>
+      <h3>A pelican on a bicycle turns up in a Dutch music video</h3>
+      <p>Willison points out that one appears at 00:44 in De Staat's Freedom video, with visual effects credited to Fake it or Leave it.</p>
+      <p class="sources"><a href="https://simonwillison.net/2026/Oct/22/de-staat-freedom/">DE STAAT - FREEDOM, Thu 22</a></p>
+    </article>
+  </section>
+</div>
+
+<main class="wrap">
+  <!-- WIRE -->
+  <section class="page wire c-wire" id="wire">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Wire</span><button id="wireToggle" type="button" aria-expanded="false" aria-controls="wireBody" style="order:2">[show 56 items]</button></h2>
+    <div class="wire-body" id="wireBody" hidden>
+      <div class="filters" role="group" aria-label="Filter the wire">
+        <button type="button" data-cat="all" aria-pressed="true">all</button>
+        <button type="button" data-cat="models" aria-pressed="false">models</button>
+        <button type="button" data-cat="tools" aria-pressed="false">tools</button>
+        <button type="button" data-cat="security" aria-pressed="false">security</button>
+        <button type="button" data-cat="money" aria-pressed="false">money</button>
+        <button type="button" data-cat="opinion" aria-pressed="false">opinion</button>
+      </div>
+      <ul>
+        <li class="day">Sat 24 Oct</li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Oct/24/battledrones/">battledrones v14: Compass Rose, a four player map</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://latent.space/p/ainews-kimi-31/">[AINews] Kimi 3.1 Pro 104BA-2.8T: Fable-5.1-Class Open Weights narrows Closed-AI lead to 1 month</a><span class="s">Latent Space AINews digest</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://magazine.sebastianraschka.com/p/building-reasoning-models">Building Reasoning Models from the Ground Up: A Full Video Course</a><span class="s">Sebastian Raschka, Ahead of AI</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://www.dbreunig.com/2026/10/24/the-state-of-context-engineering.html">The State of Context Engineering</a><span class="s">Drew Breunig</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://huggingface.co/blog/allenai/litpivot">LitPivot: Developing research ideas through dynamic contextualization within the literature landscape</a><span class="s">Hugging Face · Ai2</span></div></li>
+
+        <li class="day">Fri 23 Oct</li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Oct/23/quick-study-painter/">Quick Study</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://simonwillison.net/2026/Oct/23/kimi-k31-pro/">Introducing Kimi K3.1 Pro</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://thezvi.substack.com/p/the-hackening">The Hackening</a><span class="s">Zvi</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://latent.space/p/ai-is-getting-good-at-math/">AI Is Getting Good at Math. Here’s Why.</a><span class="s">Latent Space</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://latent.space/p/ainews-black-october/">[AINews] Black October</a><span class="s">Latent Space AINews digest</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://openai.com/index/scaling-storage-one-billion-users-part-two">Rapidly scaling online storage to serve over 1 billion ChatGPT users (Part II)</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://openai.com/index/securing-our-frontier-model-training-environment">Securing our frontier model training environment</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://huggingface.co/blog/torch-neuronx-model-support">Does Your Model Run on AWS Trainium? Look It Up</a><span class="s">Hugging Face</span></div></li>
+
+        <li class="day">Thu 22 Oct</li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Oct/22/donating-agent-skills/">Donating Agent Skills to the Agentic AI Foundation</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://simonwillison.net/2026/Oct/22/armin-ronacher/">Quoting Armin Ronacher</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Oct/22/de-staat-freedom/">DE STAAT - FREEDOM (Official Music Video)</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://www.anthropic.com/news/donating-agent-skills-to-the-agentic-ai-foundation">Donating Agent Skills to the Agentic AI Foundation</a><span class="s">Anthropic</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://thezvi.substack.com/p/ai-191-the-hackening-begins">AI #191: The Hackening Begins</a><span class="s">Zvi</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://latent.space/p/ainews-openais-patch-the-planet-program/">OpenAI’s Patch the Planet program is 1 of 2 parties to discover PHP2Shell vulnerabilities in core PHP</a><span class="s">Latent Space AINews digest</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://latent.space/p/modal-d/">Why AI Compute Comes in Rectangles: Erik Bernhardsson, Modal CEO</a><span class="s">Latent Space</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://www.dwarkesh.com/p/intel-tour">What will computer chips look like in 2045?</a><span class="s">Dwarkesh Patel</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://latent.space/p/moshi/">You are the Team: Anekha Sokhal, Moshi</a><span class="s">Latent Space</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://openai.com/index/decisions-api">Build more responsive apps with the Decisions API</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://deepmind.google/blog/beyond-tree-cover-mapping-the-worlds-forest-types/">Beyond tree cover: mapping the world’s forest types</a><span class="s">DeepMind</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://huggingface.co/blog/microsoft/thinkingbox-training">Turning Database Grading into RL Rewards: Post-Training Agents with ThinkingBox</a><span class="s">Hugging Face · Microsoft</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://huggingface.co/blog/ibm-research/granite-timeseries-ensemble-r1">Ensemble forecasting with IBM Granite time-series models</a><span class="s">Hugging Face · IBM Research</span></div></li>
+
+        <li class="day">Wed 21 Oct</li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://simonwillison.net/2026/Oct/21/php-security-release/">Today’s PHP Security Release, and How We’re Strengthening PHP Security</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Oct/21/panache/">Panache: RTS Belle Époque pour mobile</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://latent.space/p/claude-mods/">Claude Mods: Flipping the Harness Inside Out</a><span class="s">Latent Space</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://latent.space/p/ainews-deepseek-deepinfer-open-source/">DeepSeek DeepInfer: Open Source SOTA Inference running 155T toks/day/cluster</a><span class="s">Latent Space AINews digest</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://latent.space/p/tenex/">AI for the Fortune 2000: How Tenex Builds an AI-Native SDLC</a><span class="s">Latent Space</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://openai.com/index/openai-models-google-cloud">OpenAI models are coming to Google Cloud</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://openai.com/index/coordinated-disclosure-of-critical-vulnerabilities">Patch the Planet: global response coordination as agents uncover critical vulnerabilities</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://openai.com/index/scaling-ai-research-for-complex-biological-data">Using thousands of AI agents to uncover new leads in biological data</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://openai.com/index/cloudflare-cyber">Cloudflare links vulnerability discovery to defense with OpenAI</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://openai.com/index/empowering-cyber-defenders">Democratic governance of frontier AI, part II: Empowering cyber defenders</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://huggingface.co/blog/nvidia/kumo-relational">NVIDIA Kumo Relational Outperforms Supervised Machine Learning on Relational Data, No Training Required</a><span class="s">Hugging Face · NVIDIA</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://huggingface.co/blog/Dharma-AI/vocabx-vocabulary-specialization">How Specializing the Vocabulary of SLMs Can Cut Inference Cost by 77% in Real Applications</a><span class="s">Hugging Face · Dharma AI</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://huggingface.co/blog/amazon/profiling-torchneuron-part-1">Profiling TorchNeuron (Part 1): System-level profiling on AWS Trainium</a><span class="s">Hugging Face · Amazon</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://huggingface.co/blog/ibm-granite/granite-speech-5">Granite Speech 5.0: Transcribe, Translate, and Attribute more Accurately and Faster</a><span class="s">Hugging Face · IBM Granite</span></div></li>
+
+        <li class="day">Tue 20 Oct</li>
+        <li class="row c-security" data-cat="security"><span class="t">security</span><div><a href="https://simonwillison.net/2026/Oct/20/emudhra-certificates/">eMudhra Intermediate CA Compromise</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Oct/20/battledrones/">Battle Drones - a vibe coded RTS with audio-based multiplayer</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://www.interconnects.ai/p/latest-open-artifacts-25-deepseek">Latest open artifacts (#25): DeepSeek V4.1 Flash 1017, American-made models, and new regulatory controls in the US &amp; China</a><span class="s">Nathan Lambert, Interconnects</span></div></li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://www.oneusefulthing.org/p/30-months-on-the-exponential-in-charts">30 Months on the Exponential (in Charts)</a><span class="s">Ethan Mollick</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://hamel.dev/blog/posts/decision-model-evals/">How To Use Decision Models for Evals</a><span class="s">Hamel Husain</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://latent.space/p/sfcompute2/">The Programmable Data Center: Evan Conrad, SF Compute</a><span class="s">Latent Space</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://openai.com/index/openai-to-acquire-orchestra-bio">OpenAI acquires Orchestra Bio</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://huggingface.co/blog/hf-torchtpu">Hugging Face ❤️ TorchTPU: TPUs, Natively</a><span class="s">Hugging Face</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://huggingface.co/blog/anylanguagemodel-1-0">AnyLanguageModel 1.0: One Year of Local Models on Apple Platforms</a><span class="s">Hugging Face</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://huggingface.co/blog/mps-pytorch-2-15">MPS in PyTorch 2.15</a><span class="s">Hugging Face</span></div></li>
+
+        <li class="day">Mon 19 Oct</li>
+        <li class="row c-opinion" data-cat="opinion"><span class="t">opinion</span><div><a href="https://simonwillison.net/2026/Oct/19/my-obituary-for-programming/">My obituary for programming</a><span class="s">Simon Willison · Jeremy Scheff</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://jack-clark.net/2026/10/19/import-ai-477-in-which-i-tell-the-imf-the-singularity-has-begun/">Import AI 477: In which I tell the IMF the Singularity has begun</a><span class="s">Jack Clark, Import AI</span></div></li>
+        <li class="row c-models" data-cat="models"><span class="t">models</span><div><a href="https://openai.com/index/low-resource-programming-languages">Advancing coding in low-resource programming languages</a><span class="s">OpenAI</span></div></li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://huggingface.co/blog/hf-torchneuron">TorchNeuron: running HF models on AWS Trainium is easier than ever</a><span class="s">Hugging Face</span></div></li>
+
+        <li class="day">Sun 18 Oct</li>
+        <li class="row c-tools" data-cat="tools"><span class="t">tools</span><div><a href="https://simonwillison.net/2026/Oct/18/llm-tools-datasette/">llm-tools-datasette 0.1.1</a><span class="s">Simon Willison</span></div></li>
+        <li class="row c-money" data-cat="money"><span class="t">money</span><div><a href="https://www.anthropic.com/news/public-benefit-fund">Investing in the public benefit</a><span class="s">Anthropic</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- COLOPHON -->
+  <section class="colophon c-neutral" id="colophon">
+    <h2 class="pagehead"><span class="hash">##</span><span class="name">Colophon</span></h2>
+    <p>The Sunday run, from live fetches of every source in the list on Sunday morning. Feeds where they exist, the page itself for Anthropic and Artificial Analysis. Anything already linked in issue 8 was dropped. Summaries are original, everything links out, and no quotes this week. The window is Sun 18 Oct to Sat 24 Oct.</p>
+    <p>Three caveats. Thirteen items were filtered or skipped: nine OpenAI customer, partner, hiring or advertising posts (the NASK partnership, forward deployed engineering, Uber, AT&amp;T, ChatGPT Ads in 26 countries, the ad stack, broad access standards, a franchisee and Terminal X), two Anthropic posts on a life sciences call for investigators and a Long-Term Benefit Trust appointment, Latent Space's quiet "not much happened today" digest, and Willison's llm-echo 0.5 release note. OpenAI's article pages returned an access error, so its items are listed from feed summaries. Hugging Face items are from titles only, and Zvi's PHP and security claims, and the figures Latent Space attributes to others, are theirs and unverified here.</p>
+    <div class="figures">
+      <h4>Sources polled</h4>
+      <p class="cap">18 checked · 3 quiet · 56 wire items. Counts include items relayed through a source.</p>
+      <table class="data">
+        <tr><th>Source</th><th>Kind</th><th>Kept</th></tr>
+        <tr><td>Simon Willison's Weblog</td><td class="dim">blog</td><td class="num">12</td></tr>
+        <tr><td>Latent Space</td><td class="dim">newsletter</td><td class="num">10</td></tr>
+        <tr><td>Hugging Face</td><td class="dim">lab blog</td><td class="num">12</td></tr>
+        <tr><td>OpenAI News</td><td class="dim">lab</td><td class="num">10</td></tr>
+        <tr><td>Don't Worry About the Vase (Zvi)</td><td class="dim">newsletter</td><td class="num">2</td></tr>
+        <tr><td>Anthropic News</td><td class="dim">lab, page</td><td class="num">2</td></tr>
+        <tr><td>Interconnects</td><td class="dim">newsletter</td><td class="num">1</td></tr>
+        <tr><td>Import AI</td><td class="dim">newsletter</td><td class="num">1</td></tr>
+        <tr><td>One Useful Thing</td><td class="dim">newsletter</td><td class="num">1</td></tr>
+        <tr><td>Ahead of AI</td><td class="dim">newsletter</td><td class="num">1</td></tr>
+        <tr><td>Hamel Husain</td><td class="dim">blog</td><td class="num">1</td></tr>
+        <tr><td>Drew Breunig</td><td class="dim">blog</td><td class="num">1</td></tr>
+        <tr><td>DeepMind</td><td class="dim">lab</td><td class="num">1</td></tr>
+        <tr><td>Dwarkesh</td><td class="dim">audio</td><td class="num">1</td></tr>
+        <tr><td>Artificial Analysis</td><td class="dim">tracker, page</td><td class="num">updated</td></tr>
+        <tr><td>Armin Ronacher, SemiAnalysis, Eugene Yan</td><td class="dim">various</td><td class="num">quiet</td></tr>
+      </table>
+    </div>
+    <p class="keys"><kbd>j</kbd> <kbd>k</kbd> next / previous story &nbsp; <kbd>o</kbd> open its first source &nbsp; <kbd>w</kbd> wire &nbsp; <kbd>t</kbd> theme</p>
+    <p class="end">the sunday rebase · issue 9 · sun 25 oct 2026 · <code>0 7 * * 0</code> · next run sun 1 nov 2026, 07:00 cet</p>
+  </section>
+</main>
+
+<script>
+(function(){
+  var root=document.documentElement;
+
+  /* theme: light by default, manual dark */
+  var themeBtn=document.getElementById('theme');
+  function effectiveTheme(){ return root.getAttribute('data-theme')==='dark' ? 'dark' : 'light'; }
+  function syncTheme(){
+    var dark=effectiveTheme()==='dark';
+    themeBtn.textContent = dark ? '[light]' : '[dark]';
+    document.querySelector('meta[name="theme-color"]').content = dark ? '#1A1B26' : '#F6F4EE';
+  }
+  function toggleTheme(){ root.setAttribute('data-theme', effectiveTheme()==='light' ? 'dark' : 'light'); syncTheme(); }
+  themeBtn.addEventListener('click',toggleTheme);
+  syncTheme();
+
+  /* issue picker: every issue from issues/index.json (written by the deploy workflow), newest first */
+  var pick=document.getElementById('issuePick'), menu=document.getElementById('issueMenu'), issueList=document.getElementById('issueList');
+  var here=decodeURIComponent(location.pathname.split('/').pop());
+  var DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function dayLabel(iso){ var d=new Date(iso+'T12:00:00'); return DAYS[d.getDay()]+' '+d.getDate()+' '+MONTHS[d.getMonth()]+' '+d.getFullYear(); }
+  function renderIssues(issues){
+    issueList.textContent='';
+    issues.forEach(function(it){
+      var li=document.createElement('li'), a=document.createElement('a'), b=document.createElement('b'), s=document.createElement('span');
+      a.href=it.file; b.textContent='Issue '+it.n; s.textContent=dayLabel(it.date);
+      a.appendChild(b); a.appendChild(s);
+      if(it.lead){ var em=document.createElement('em'); em.textContent=it.lead; a.appendChild(em); }
+      if(it.file===here){ a.setAttribute('aria-current','page'); }
+      li.appendChild(a); issueList.appendChild(li);
+    });
+  }
+  function placeMenu(){
+    menu.style.marginLeft='0px'; menu.style.setProperty('--shift','0px');
+    /* layout viewport, not innerWidth: a phone zooms out when something overflows, which would hide the overflow */
+    var r=menu.getBoundingClientRect(), vw=document.documentElement.clientWidth, pad=12, dx=0;
+    if(r.left<pad){ dx=pad-r.left; } else if(r.right>vw-pad){ dx=vw-pad-r.right; }
+    menu.style.marginLeft=dx+'px'; menu.style.setProperty('--shift',dx+'px');
+  }
+  function setMenu(open){
+    menu.hidden=!open; pick.setAttribute('aria-expanded',open?'true':'false');
+    if(open){ placeMenu(); var first=issueList.querySelector('a'); if(first){ first.focus(); } }
+  }
+  pick.addEventListener('click',function(e){ e.stopPropagation(); setMenu(menu.hidden); });
+  document.addEventListener('click',function(e){ if(!menu.hidden && !menu.contains(e.target)){ setMenu(false); } });
+  window.addEventListener('resize',function(){ if(!menu.hidden){ placeMenu(); } });
+  /* a newer issue than this page: hop to it when the reader came in through the front door
+     (which may have been served from a stale cache), otherwise say so above the ticker */
+  function announceNewer(newest){
+    if(!newest || newest.file===here) return;
+    var root=new URL('../',location.href).href;
+    if(document.referrer===root || document.referrer===root+'index.html'){ location.replace(newest.file); return; }
+    var box=document.getElementById('newer'), a=document.createElement('a');
+    a.href=newest.file; a.textContent='read it →';
+    box.textContent='Issue '+newest.n+' is out · '+dayLabel(newest.date)+' · ';
+    box.appendChild(a); box.hidden=false;
+  }
+  /* the CDN caches files for ten minutes; a per-minute key keeps the manifest fresh without hammering it */
+  fetch('index.json?m='+Math.floor(Date.now()/60000))
+    .then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function(data){ var issues=data.issues||[]; renderIssues(issues); announceNewer(issues[0]); })
+    .catch(function(){ /* no manifest, e.g. a local file preview: the archive link still works */ });
+
+  /* progress bar */
+  var bar=document.getElementById('progress');
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    bar.style.width=(h>0? (window.scrollY/h*100):0)+'%';
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* wire toggle + filters */
+  var wireBtn=document.getElementById('wireToggle'), wireBody=document.getElementById('wireBody');
+  function setWire(open){
+    wireBody.hidden=!open;
+    wireBtn.setAttribute('aria-expanded',open?'true':'false');
+    wireBtn.textContent=open?'[hide]':'[show 56 items]';
+  }
+  wireBtn.addEventListener('click',function(){ setWire(wireBody.hidden); });
+  var chips=document.querySelectorAll('.filters button');
+  var list=document.querySelector('.wire ul');
+  function filter(cat){
+    var day=null, has=false;
+    Array.prototype.forEach.call(list.children,function(n){
+      if(n.classList.contains('day')){ if(day){day.hidden=!has;} day=n; has=false; }
+      else{ var show=(cat==='all')||(n.dataset.cat===cat); n.hidden=!show; if(show){has=true;} }
+    });
+    if(day){day.hidden=!has;}
+  }
+  function setFilter(cat){
+    chips.forEach(function(x){x.setAttribute('aria-pressed', x.dataset.cat===cat ? 'true':'false');});
+    filter(cat);
+  }
+  chips.forEach(function(c){
+    c.addEventListener('click',function(){ setFilter(c.dataset.cat); });
+  });
+
+  /* per-section "more → wire" links: open the wire pre-filtered */
+  document.querySelectorAll('.pagehead .more[data-cat]').forEach(function(m){
+    m.addEventListener('click',function(){
+      setWire(true);
+      setFilter(m.dataset.cat);
+    });
+  });
+
+  /* keyboard: j/k stories, o open source, w wire, t theme */
+  var stories=Array.prototype.slice.call(document.querySelectorAll('[data-story]'));
+  var idx=-1;
+  function focusStory(i){
+    if(i<0||i>=stories.length) return;
+    if(idx>=0) stories[idx].classList.remove('kb');
+    idx=i; var el=stories[idx];
+    el.classList.add('kb');
+    el.scrollIntoView({block:'center'});
+  }
+  document.addEventListener('keydown',function(e){
+    if(e.metaKey||e.ctrlKey||e.altKey) return;
+    var tag=(e.target.tagName||'').toLowerCase();
+    if(tag==='input'||tag==='textarea') return;
+    if(!menu.hidden){
+      if(e.key==='Escape'){ setMenu(false); pick.focus(); e.preventDefault(); }
+      else if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+        var links=Array.prototype.slice.call(menu.querySelectorAll('a')), i=links.indexOf(document.activeElement);
+        var n=e.key==='ArrowDown' ? Math.min(i+1,links.length-1) : Math.max(i-1,0);
+        if(links[n]){ links[n].focus(); } e.preventDefault();
+      }
+      return;
+    }
+    if(e.key==='j'){ focusStory(Math.min(idx+1,stories.length-1)); e.preventDefault(); }
+    else if(e.key==='k'){ focusStory(Math.max(idx-1,0)); e.preventDefault(); }
+    else if(e.key==='o'||e.key==='Enter'){
+      if(idx>=0){ var a=stories[idx].querySelector('.related a, .sources a, .meta a, h4 a'); if(a){ window.open(a.href,'_blank','noopener'); } }
+    }
+    else if(e.key==='w'){ setWire(wireBody.hidden); if(!wireBody.hidden){ document.getElementById('wire').scrollIntoView({block:'start'}); } }
+    else if(e.key==='t'){ toggleTheme(); }
+  });
+})();
+</script>
+</body>
+</html>
