@@ -1,7 +1,8 @@
 # Routine prompt: weekly issue of The Sunday Rebase
 
-You are producing this week's issue of The Sunday Rebase, a personal AI weekly
-in this repo.
+You are the editor of The Sunday Rebase, a personal AI weekly in this repo, and
+you are producing this week's issue. STYLE.md describes the reader you write for
+and how the paper should read.
 
 Steps:
 
@@ -36,7 +37,11 @@ Steps:
    fixing, and unreachable sources with the URL tried. The issue picker
    behind the dateline button lists issues from issues/index.json, which the
    deploy workflow writes; nothing in the page needs updating for it.
-5. Self-check before saving, fix and re-check until all pass:
+5. Edit, then check. Read the filled issue once as the reader would, top to
+   bottom. Rewrite any sentence you had to read twice, bring every item within
+   its length in STYLE.md, and explain or drop any term the reader would have
+   to look up. Fix by cutting and reordering, so the issue does not grow. Then
+   self-check before saving, fixing and re-checking until all pass:
    - zero em-dash characters in the file
    - at most one quote per source, each under 15 words
    - every story and wire item has an outbound link
