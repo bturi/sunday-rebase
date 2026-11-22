@@ -30,7 +30,7 @@ meaning: up on what, over which period.
 - Band 3: Compute, Money and Opinion as three columns.
 - Each Band 2 and Band 3 section except Opinion: one lead package (headline,
   standfirst, 2-4 related links), up to three river entries (linked headline,
-  one line, meta), one trailing Also line. Opinion: 3-5 columns, author first.
+  one or two sentences, meta), one trailing Also line. Opinion: 3-5 columns, author first.
   - Models & research: model releases, benchmarks, papers, training methods
     and algorithms.
   - Compute: chips, memory, networking, data centres, power, and the engines
@@ -53,15 +53,18 @@ meaning: up on what, over which period.
 
 Write the way a well-informed friend tells you the week's news: plain words, a
 person talking. Open each item with what happened and why it matters, then give
-the one or two numbers that prove it, each with its comparison. Leave the other
-figures to the link. A reader keeps two numbers from a paragraph, rarely seven.
+the numbers that carry the story, each with its comparison and no more than two
+to a sentence. Leave the other figures to the link.
 
 Give each sentence one idea and put its subject and verb near the front. Most
 sentences run under 25 words, and a short one after a long one helps the
 rhythm. Prefer everyday verbs (cut, raised, found, shipped) to nouns made from
 them. Name a source once, then say what it found. Explain a term in half a
-sentence the first time it appears, or leave the term out. If a sentence needs
-a second read, split it or cut it.
+sentence the first time it appears, or leave the term out. A plain definition
+of a general term (what Lean is, what a futures contract settles against) may
+come from general knowledge; every claim about the week's events comes from the
+fetched material. A term that first appears in a headline is explained in the
+text below it. If a sentence needs a second read, split it or cut it.
 
 Lengths, so the paper reads easily and does not grow:
 
@@ -70,7 +73,8 @@ Lengths, so the paper reads easily and does not grow:
 - Standfirsts: up to 100 words. Four or five sentences read better than three
   long ones.
 - Secondaries: one sentence, up to 22 words.
-- River entries: up to 40 words, two sentences at most.
+- River entries: up to 40 words, two sentences at most, not counting the
+  headline and meta line.
 - Also lines: up to 70 words.
 
 These match the paper's usual length, so better wording has to fit inside them.
@@ -92,8 +96,9 @@ These match the paper's usual length, so better wording has to fit inside them.
 ## Examples
 
 Each pair below comes from a past issue and holds the same facts both times.
-The second version reads on the first pass and is shorter. The pairs show the
-voice: vary the content and the sentence shapes, and never reuse their facts.
+The second version reads on the first pass and is shorter. The pairs are for
+voice only. Their facts are out of date and are never source material, even when
+the same story is in the news again. Vary the content and the sentence shapes.
 
 <examples>
 <example>
@@ -103,8 +108,8 @@ voice: vary the content and the sentence shapes, and never reuse their facts.
 </example>
 <example>
 <before>OpenAI's GPT-6.2 Astra costs $8 per million input tokens and $40 per million output, 20% below GPT-6 Astra and the same as Fable 5.2, with cached input cut to $0.40 from $1; GPT-6.2 Sol stays at $2 and $10. Artificial Analysis scores Astra (max) at 62 for $4.00 per index task, against 65 and $26.54 for Fable 5.2, and Google's Gemini 4 Neon, priced at $3 and $15, at 61 for $6.44. OpenAI's claim of a 5.5-point lead over Fable 5.2 on Agents' Last Exam at 5% of the cost comes from its own benchmark run. Early reviews are mixed: Willison relays complaints that Astra's communication can be confusing, and Latent Space calls some of the influencer feedback strongly negative.</before>
-<after>Fable 5.2 still tops Artificial Analysis's index at 65, but GPT-6.2 Astra scores 62 for $4.00 a task, against $26.54 for Fable. Gemini 4 Neon scores 61 for $6.44. Astra's list price is 20% below GPT-6 Astra's, at $8 per million input tokens and $40 per million output. OpenAI's claim that Astra beats Fable 5.2 on Agents' Last Exam comes from its own test. Early reviews are mixed, with complaints that its answers can be confusing.</after>
-<why>The news is the price of a near-top score, so it comes first. Seventeen figures became nine.</why>
+<after>GPT-6.2 Astra scores 62 on Artificial Analysis's index, three points behind Fable 5.2. It costs $4.00 a task to Fable's $26.54. Gemini 4 Neon scores 61 for $6.44. Astra's list price is $8 per million input tokens, 20% below GPT-6 Astra. OpenAI's claim that Astra beats Fable 5.2 on Agents' Last Exam comes from its own test. Early reviews are mixed, with complaints that its answers can be confusing.</after>
+<why>The news is a near-top score for far less money, so it leads. Seventeen figures became eight, never more than two to a sentence.</why>
 </example>
 <example>
 <before>Silicon Data's H100 index closed Sat 21 at $3.09 per GPU-hour, down 1.3% on the week, and the B200 at $6.94, also down 1.3%, though both stay above where November began. CoreWeave told investors on Nov 10 that prices for its older Ampere and Hopper GPUs rose 30% to 50% quarter on quarter, while Silicon Data's market indices rose far less in Q3: 2.4% for the H100 and 13.1% for the H200 on quarterly averages. The gap is the baseline, since the H100 index averaged 29.6% more in Q3 than a year earlier, so a contract signed in 2025 and repriced now lands in CoreWeave's range. CoreWeave has more than 130,000 GPUs coming off contract in 2027 and about 170,000 in 2028; Silicon Data sells the indices it analyses.</before>
@@ -130,5 +135,5 @@ voice: vary the content and the sentence shapes, and never reuse their facts.
 - Duplicates across sources collapse into one package; the extra sources become
   related links.
 - Window: since the previous issue date, minus anything already linked there.
-- If a claim cannot be verified from the fetched material, the item is dropped.
-  Nothing is invented. Ever.
+- If a claim cannot be verified from the fetched material, cut the claim, and
+  drop the whole item if that claim was its news. Nothing is invented. Ever.
