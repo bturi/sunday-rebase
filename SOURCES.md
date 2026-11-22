@@ -28,6 +28,7 @@ four times its gap is overdue, which usually means a broken entry.
 - https://openai.com/news/rss.xml          feed · daily
 - https://www.anthropic.com/news           page · several a week · no official RSS: fetch and diff
 - https://deepmind.google/discover/blog/   autodiscover · weekly
+- https://mistral.ai/news/rss              feed · weekly · Mistral AI. If the feed fails, read the page https://mistral.ai/news
 - https://huggingface.co/blog/feed.xml     feed · daily
 - https://artificialanalysis.ai/leaderboards/models   page · weekly · for the index table
 
